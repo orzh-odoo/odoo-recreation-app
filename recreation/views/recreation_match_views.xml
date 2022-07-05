@@ -45,7 +45,7 @@
                     <field name="name"/>
                     <field name="activity_id"/>
                     <field name="location_id"/>
-                    <field name="team_ids"/>
+                    <field name="team_names"/>
                     <field name="start_time"/>
                 </tree>
             </field>

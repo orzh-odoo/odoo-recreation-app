@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from odoo import models, fields
+from odoo import models, fields, api
 
 
 class RecreationMatch(models.Model):
@@ -26,4 +26,13 @@ class RecreationMatch(models.Model):
             ('done', 'Done')
         ]
     )
-    
+    team_names = fields.Char(compute='_compute_team_names')
+
+    @api.depends('team_ids')
+    def _compute_team_names(self):
+        for match in self:
+            names = []
+            for team in match.team_ids:
+                names.append(team.name)
+            match.team_names = ', '.join(names)
+
