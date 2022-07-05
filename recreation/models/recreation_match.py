@@ -16,6 +16,6 @@ class RecreationMatch(models.Model):
     result_ids = fields.One2many(comodel_name='recreation.result', inverse_name='match_id', string='Results')
     location_id = fields.Many2one(comodel_name='recreation.location', string='Location')
     attending_members = fields.Many2many(comodel_name='res.partner', string='Attending Members')
-    child = fields.Many2one(comodel_name='recreation.match', string='Child')
+    child = fields.Many2one(comodel_name='recreation.match', string='Next Match')
     winner = fields.Many2one(comodel_name='recreation.team', string='Winner')
     

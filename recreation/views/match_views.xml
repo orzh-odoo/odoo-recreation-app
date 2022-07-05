@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="match_view_form">
+            <field name="name">recreation.match.form</field>
+            <field name="model">recreation.match</field>
+            <field name="arch" type="xml">
+                <form string="Match Form">
+                    <sheet>
+                        <h1>
+                            <group>
+                                <field name="name"/>
+                            </group>
+                        </h1>
+                        <group>
+                            <group>
+                                <field name="activity_id"/>
+                                <field name="location_id"/>
+                                <field name="team_ids"/>
+                                <field name="result_ids"/>
+                                <field name="winner"/>
+                                <field name="child"/>
+                            </group>
+                            <group>
+                                <field name="start_time"/>
+                                <field name="end_time"/>
+                                <field name="activity_time"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Attending Members">
+                                <field name="attending_members"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="match_view_list">
+            <field name="name">recreation.match.list</field>
+            <field name="model">recreation.match</field>
+            <field name="arch" type="xml">
+                <tree string="Match List">
+                    <field name="name"/>
+                    <field name="activity_id"/>
+                    <field name="location_id"/>
+                    <field name="team_ids"/>
+                    <field name="start_time"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="match_view_search">
+            <field name="name">recreation.match.search</field>
+            <field name="model">recreation.match</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="activity_id"/>
+                    <field name="location_id"/>
+                    <field name="team_ids"/>
+                    <field name="start_time"/>
+                </search>
+            </field>
+        </record>
+    </data>
+</odoo>
