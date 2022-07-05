@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+    <record id="recreation_location_view_form" model="ir.ui.view">
+        <field name="name">recreation.location.view.form</field>
+        <field name="model">recreation.location</field>
+        <field name="arch" type="xml">
+            <form string="Locations">
+                <sheet>
+                    <group>
+                        <field name="name" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    </data>
+</odoo>

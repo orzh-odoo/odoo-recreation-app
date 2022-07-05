@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="recreation_activity_view_form" model="ir.ui.view">
+            <field name="name">recreation.activity.view.form</field>
+            <field name="model">recreation.activity</field>
+            <field name="arch" type="xml">
+                <form string="Activity">
+                    <sheet>
+                        <h1><field name="name" /></h1>
+                        <group>
+                            <field name="description" />
+                            <field name="average_game_time" />
+                        </group>
+                        <notebook>
+                            <page name="rules" string="Rules">
+                                <field name="rules" />
+                            </page>
+                            <page name="teams" string="Teams">
+                                <field name="team_ids" />
+                            </page>
+                            <page name="matches" string="Matches">
+                                <field name="match_ids" />
+                            </page>
+                            <page name="locations" string="Locations">
+                                <field name="location_ids" />
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

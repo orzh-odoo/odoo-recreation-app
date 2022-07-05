@@ -12,6 +12,9 @@
     'depends': ['base'],
     'data': [
         'views/recreation_menuitems.xml',
-        'security/ir.model.access.csv'
+        'security/ir.model.access.csv',
+        'views/recreation_location_views.xml',
+        'views/recreation_activity_views.xml',
+        'views/recreation_team_views.xml'
     ]
 }
