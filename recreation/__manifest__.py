@@ -16,6 +16,7 @@
         'security/ir.model.access.csv',
         'views/recreation_location_views.xml',
         'views/recreation_activity_views.xml',
-        'views/recreation_team_views.xml'
+        'views/recreation_team_views.xml',
+        'views/recreation_result_views.xml'
     ]
 }
