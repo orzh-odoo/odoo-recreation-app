@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="recreation_result_view_tree" model="ir.ui.view">
+            <field name="name">recreation.result.view.tree</field>
+            <field name="model">recreation.result</field>
+            <field name="arch" type="xml">
+                <tree string="Results">
+                    <field name="team_id" />
+                    <field name="score" />
+                </tree>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -17,7 +17,7 @@ class RecreationMatch(models.Model):
     location_id = fields.Many2one(comodel_name='recreation.location', string='Location')
     attending_members = fields.Many2many(comodel_name='res.partner', string='Attending Members')
     child = fields.Many2one(comodel_name='recreation.match', string='Next Match')
-    winner = fields.Many2one(comodel_name='recreation.team', string='Winner')
+    winner = fields.Many2one(comodel_name='recreation.team', string='Winner', compute='_compute_winner')
     status = fields.Selection(
         string='Status',
         selection=[
@@ -36,3 +36,13 @@ class RecreationMatch(models.Model):
                 names.append(team.name)
             match.team_names = ', '.join(names)
 
+    @api.depends('result_ids')
+    def _compute_winner(self):
+        for match in self:
+            max_score = 0
+            team_id = None
+            for team in match.result_ids:
+                if team.score > max_score:
+                    max_score = team.score
+                    team_id = team.team_id
+            match.winner = team_id
