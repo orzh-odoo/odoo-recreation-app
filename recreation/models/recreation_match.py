@@ -9,6 +9,7 @@ class RecreationMatch(models.Model):
 
     name = fields.Char(string="Name")
     activity_id = fields.Many2one(comodel_name='recreation.activity', string='Activity')
+    team_ids = fields.Many2many(comodel_name='recreation.team', string='Teams')
     start_time = fields.Datetime(string='Start Time')
     end_time = fields.Datetime(string='End Time')
     activity_time = fields.Integer(string='Activity Time')
