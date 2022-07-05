@@ -10,5 +10,8 @@
     'license': 'OPL-1',
     'version': '0.1',
     'depends': ['base'],
-    'data': []
+    'data': [
+        'views/recreation_menuitems.xml',
+        'security/ir.model.access.csv'
+    ]
 }

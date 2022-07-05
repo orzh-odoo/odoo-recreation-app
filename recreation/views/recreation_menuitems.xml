@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="activity_list_action" model="ir.actions.act_window">
+            <field name="name">Activities</field>
+            <field name="res_model">recreation.activity</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create the first activity
+                </p>
+            </field>
+        </record>
+
+        <record id="team_list_action" model="ir.actions.act_window">
+            <field name="name">Teams</field>
+            <field name="res_model">recreation.team</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create the first team
+                </p>
+            </field>
+        </record>
+
+        <record id="match_list_action" model="ir.actions.act_window">
+            <field name="name">Matches</field>
+            <field name="res_model">recreation.match</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create the first match
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="recreation_menu" name="Recreation" sequence="1"/>
+
+        <menuitem id="recreation_sub_menu" name="Recreation" parent="recreation_menu" sequence="2"/>
+        
+        <menuitem id="recreation_activity_menu" name="Activities" parent="recreation_sub_menu" sequence="3" action="activity_list_action"/>
+        <menuitem id="recreation_team_menu" name="Teams" parent="recreation_sub_menu" sequence="4" action="team_list_action"/>
+        <menuitem id="recreation_match_menu" name="Matches" parent="recreation_sub_menu" sequence="5" action="match_list_action"/>
+
+
+
+
+    </data>
+</odoo>
