@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api
+from datetime import timedelta
 
 
 class RecreationMatch(models.Model):
@@ -11,7 +12,7 @@ class RecreationMatch(models.Model):
     activity_id = fields.Many2one(comodel_name='recreation.activity', string='Activity')
     team_ids = fields.Many2many(comodel_name='recreation.team', string='Teams')
     start_time = fields.Datetime(string='Start Time')
-    end_time = fields.Datetime(string='End Time')
+    end_time = fields.Datetime(string='End Time', compute='_compute_end_time', inverse='_inverse_end_time', store=True)
     activity_time = fields.Integer(string='Activity Time')
     result_ids = fields.One2many(comodel_name='recreation.result', inverse_name='match_id', string='Results')
     location_id = fields.Many2one(comodel_name='recreation.location', string='Location')
@@ -36,3 +37,17 @@ class RecreationMatch(models.Model):
                 names.append(team.name)
             match.team_names = ', '.join(names)
 
+    @api.depends('start_time', 'activity_time')
+    def _compute_end_time(self):
+        for match in self:
+            if not (match.start_time and match.end_time):
+                match.end_time = match.start_time
+            else:
+                duration = timedelta(minutes=match.activity_time)
+                match.end_time = match.start_time + duration
+
+    def _inverse_end_time(self):
+        for match in self:
+            if match.start_time and match.end_time:
+                match.activity_time = (match.end_time - match.start_time).total_seconds()/60
+                
