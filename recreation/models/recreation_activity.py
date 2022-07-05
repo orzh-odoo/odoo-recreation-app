@@ -9,7 +9,7 @@ class RecreationActivity(models.Model):
     _description = 'Recreation Activity'
 
     name = fields.Char(string='Activity Name')
-    description = fields.Char(string='Activity Description')
+    description = fields.Text(string='Activity Description')
     rules = fields.Text(string='Rules')
     team_ids = fields.Many2many(comodel_name='recreation.team', string='Teams')
     match_ids = fields.One2many(comodel_name='recreation.match', inverse_name='activity_id', string='Matches')

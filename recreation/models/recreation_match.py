@@ -18,4 +18,12 @@ class RecreationMatch(models.Model):
     attending_members = fields.Many2many(comodel_name='res.partner', string='Attending Members')
     child = fields.Many2one(comodel_name='recreation.match', string='Next Match')
     winner = fields.Many2one(comodel_name='recreation.team', string='Winner')
+    status = fields.Selection(
+        string='Status',
+        selection=[
+            ('draft', 'Draft'),
+            ('in_progress', 'In-Progress'),
+            ('done', 'Done')
+        ]
+    )
     
