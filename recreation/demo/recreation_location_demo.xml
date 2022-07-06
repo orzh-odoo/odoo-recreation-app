@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record model="recreation.location" id="lobby">
+            <field name="name">Lobby</field>
+        </record>
+        <record model="recreation.location" id="floor_25_breakroom">
+            <field name="name">Floor 25 Breakroom</field>
+        </record>
+        <record model="recreation.location" id="floor_26_breakroom">
+            <field name="name">Floor 26 Breakroom</field>
+        </record>
+    </data>
+</odoo>

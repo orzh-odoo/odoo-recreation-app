@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record model="recreation.activity" id="ping_pong">
+            <field name="name">Ping Pong</field>
+            <field name="description">A game similar to tennis but played on a table. Aka table tennis.</field>
+            <field name="rules">Hit the ball once on your side and once on the opponent side to keep the ball alive. If you can't do it, the other side gets a point.</field>
+            <field name="location_ids" eval="[(6,0,[ref('recreation.lobby'),ref('recreation.floor_25_breakroom'),ref('recreation.floor_26_breakroom')])]"/>
+            <field name="average_game_time">20</field>
+        </record>
+        <record model="recreation.activity" id="basketball">
+            <field name="name">Basketball</field>
+            <field name="description">A game where you try to put the ball through the hoop. Aka hooping.</field>
+            <field name="rules">You have to dribble the ball to move around the court and can't engage in rough physical contact or else you'll be called for a foul.</field>
+            <field name="location_ids" eval="[(6,0,[ref('recreation.lobby')])]"></field>
+            <field name="average_game_time">48</field>
+        </record>
+        <record model="recreation.activity" id="darts">
+            <field name="name">Darts</field>
+            <field name="description">A game where you try to get the most points on the board by hitting multipliers or trying to hit the bullseye.</field>
+            <field name="rules">Players take turns throwing darts at the board behind the line. Inner small sections are 3x multipliers. Outer small sections are 2x multipliers. Bulls eye is 50 points.</field>
+            <field name="location_ids" eval="[(6,0,[ref('recreation.floor_25_breakroom'),ref('recreation.floor_26_breakroom')])]"></field>
+            <field name="average_game_time">10</field>
+        </record>
+    </data>
+</odoo>

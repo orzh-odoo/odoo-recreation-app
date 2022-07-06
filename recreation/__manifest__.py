@@ -10,6 +10,13 @@
     'license': 'OPL-1',
     'version': '0.1',
     'depends': ['base'],
+    'demo': [
+        'demo/recreation_location_demo.xml',
+        'demo/recreation_activity_demo.xml',
+        'demo/recreation_team_demo.xml',
+        'demo/recreation_result_demo.xml',
+        'demo/recreation_match_demo.xml',
+    ],
     'data': [
         'views/recreation_menuitems.xml',
         'views/recreation_match_views.xml',

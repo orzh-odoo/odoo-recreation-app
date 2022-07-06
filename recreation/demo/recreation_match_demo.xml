@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record model="recreation.match" id="match_1">
+            <field name="name">Epic vs Cool Ping Pong</field>
+            <field name="activity_id" ref="recreation.ping_pong"/>
+            <field name="team_ids" eval="[(6,0,[ref('recreation.epic_team'),ref('recreation.cool_team')])]"></field>
+            <field name="result_ids" eval="[(6,0,[ref('recreation.result_1'),ref('recreation.result_2')])]"/>
+            <field name="location_id" ref="recreation.floor_26_breakroom"/>
+            <field name="status">done</field>
+        </record>
+        <record model="recreation.match" id="match_2">
+            <field name="name">Cool vs Awesome Basketball</field>
+            <field name="activity_id" ref="recreation.basketball"/>
+            <field name="team_ids" eval="[(6,0,[ref('recreation.cool_team'),ref('recreation.awesome_team')])]"></field>
+            <field name="result_ids" eval="[(6,0,[ref('recreation.result_3'),ref('recreation.result_4')])]"/>
+            <field name="location_id" ref="recreation.lobby"/>
+            <field name="status">done</field>
+        </record>
+        <record model="recreation.match" id="match_3">
+            <field name="name">Epic vs Cool Darts</field>
+            <field name="activity_id" ref="recreation.darts"/>
+            <field name="team_ids" eval="[(6,0,[ref('recreation.epic_team'),ref('recreation.cool_team')])]"></field>
+            <field name="result_ids" eval="[(6,0,[ref('recreation.result_5'),ref('recreation.result_6')])]"/>
+            <field name="location_id" ref="recreation.floor_25_breakroom"/>
+            <field name="status">draft</field>
+        </record>
+    </data>
+</odoo>

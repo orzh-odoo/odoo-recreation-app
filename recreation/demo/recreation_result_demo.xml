@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record model="recreation.result" id="result_1">
+            <field name="team_id" ref="recreation.epic_team"/>
+            <field name="score">50</field>
+        </record>
+        <record model="recreation.result" id="result_2">
+            <field name="team_id" ref="recreation.cool_team"/>
+            <field name="score">40</field>
+        </record>
+
+        <record model="recreation.result" id="result_3">
+            <field name="team_id" ref="recreation.cool_team"/>
+            <field name="score">98</field>
+        </record>
+        <record model="recreation.result" id="result_4">
+            <field name="team_id" ref="recreation.awesome_team"/>
+            <field name="score">76</field>
+        </record>
+
+        <record model="recreation.result" id="result_5">
+            <field name="team_id" ref="recreation.epic_team"/>
+            <field name="score">130</field>
+        </record>
+        <record model="recreation.result" id="result_6">
+            <field name="team_id" ref="recreation.cool_team"/>
+            <field name="score">170</field>
+        </record>
+    </data>
+</odoo>
