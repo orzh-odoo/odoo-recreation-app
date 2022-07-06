@@ -19,7 +19,6 @@
                                 <field name="team_ids"/>
                                 <field name="result_ids"/>
                                 <field name="winner"/>
-                                <field name="child"/>
                             </group>
                             <group>
                                 <field name="start_time"/>
@@ -47,6 +46,7 @@
                     <field name="location_id"/>
                     <field name="team_names"/>
                     <field name="start_time"/>
+                    <field name="winner" />
                 </tree>
             </field>
         </record>

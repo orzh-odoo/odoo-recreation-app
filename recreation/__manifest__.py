@@ -25,5 +25,13 @@
         'views/recreation_activity_views.xml',
         'views/recreation_team_views.xml',
         'views/recreation_result_views.xml'
-    ]
+    ],
+    'assets': {
+        'web.assets_backend': [
+            'recreation/static/src/js/Scoreboard.js'
+        ],
+        'web.assets_qweb': [
+            'recreation/static/src/xml/**/*.xml',
+        ],
+    }
 }
