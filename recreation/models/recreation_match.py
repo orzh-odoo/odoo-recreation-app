@@ -13,7 +13,7 @@ class RecreationMatch(models.Model):
     team_ids = fields.Many2many(comodel_name='recreation.team', string='Teams')
     start_time = fields.Datetime(string='Start Time')
     end_time = fields.Datetime(string='End Time', compute='_compute_end_time', inverse='_inverse_end_time', store=True)
-    activity_time = fields.Integer(string='Activity Time')
+    activity_time = fields.Integer(string='Activity Time', compute='_compute_activity_time', inverse='_inverse_activity_time', store=True)
     result_ids = fields.One2many(comodel_name='recreation.result', inverse_name='match_id', string='Results')
     location_id = fields.Many2one(comodel_name='recreation.location', string='Location')
     attending_members = fields.Many2many(comodel_name='res.partner', string='Attending Members')
@@ -61,3 +61,12 @@ class RecreationMatch(models.Model):
                     max_score = team.score
                     team_id = team.team_id
             match.winner = team_id
+
+    @api.depends('activity_id')
+    def _compute_activity_time(self):
+        for match in self:
+            if match.activity_id:
+                match.activity_time = match.activity_id.average_game_time
+
+    def _inverse_activity_time(self):
+        return
