@@ -1,0 +1,27 @@
+.scoreboard {
+    height: 100vh;
+}
+
+.scoreboard-element {
+    position: absolute;
+}
+
+.score-element {
+    display: flex;
+    column-gap: 3em;
+    justify-content: space-around;
+}
+
+.team-score {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.score-team-name {
+    font-size: 2em;
+}
+
+.score-score {
+    font-size: 10em;
+}

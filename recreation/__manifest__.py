@@ -28,7 +28,8 @@
     ],
     'assets': {
         'web.assets_backend': [
-            'recreation/static/src/js/**/*.js'
+            'recreation/static/src/js/**/*.js',
+            'recreation/static/src/css/**/*.css'
         ],
         'web.assets_qweb': [
             'recreation/static/src/xml/**/*.xml',

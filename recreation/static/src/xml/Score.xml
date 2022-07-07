@@ -2,14 +2,20 @@
 <template id="template" xml:space="preserve">
     
     <t t-name="score" owl="1">
-        <div class="score-element" t-on-click.stop="">
-            <span class="score-team-name">
-                <t t-esc="props.element.teamName"/>
-            </span>
-            <span class="score-score">
-                <t t-esc="props.element.score"/>
-            </span>
-        </div>
+        <Draggable limitArea="'.scoreboard'">
+            <Resizeable limitArea="'.scoreboard'">
+                <div class="scoreboard-element score-element drag-handle" t-on-click.stop="">
+                    <div t-foreach="props.element.scores" t-as="score" class="team-score">
+                        <div class="score-team-name">
+                            <t t-esc="score.teamName"/>
+                        </div>
+                        <div class="score-score">
+                            <t t-esc="score.points"/>
+                        </div>
+                    </div>
+                </div>
+            </Resizeable>
+        </Draggable>
     </t>
 
 </template>

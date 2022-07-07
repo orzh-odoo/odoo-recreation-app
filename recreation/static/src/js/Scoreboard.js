@@ -16,9 +16,16 @@ class Scoreboard extends Component{
             {
                 id: 1,
                 type: 'score',
-                teamName: 'Team Awsome',
-                score: 5
-
+                scores: [
+                    {
+                        teamName: 'Team Awsome',
+                        points: 5
+                    },
+                    {
+                        teamName: 'Team Cool',
+                        points: 6
+                    }
+                ]
             },
             {
                 id: 2,
@@ -26,15 +33,19 @@ class Scoreboard extends Component{
                 teams: [
                     {
                         id: 3,
+                        rank: 1,
                         teamName: 'Team Awsome',
                         wins: 1,
-                        losses: 0
+                        losses: 0,
+                        ties: 1
                     },
                     {
                         id: 3,
+                        rank: 2,
                         teamName: 'Team Cool',
                         wins: 0,
-                        losses: 1
+                        losses: 1,
+                        ties: 1
                     }
                 ]
             }
@@ -42,11 +53,11 @@ class Scoreboard extends Component{
     }
 }
 
-Scoreboard.template = 'scoreboard'
+Scoreboard.template = 'scoreboard';
 Scoreboard.components = {
     Ranking,
     Score
-}
+};
 
 core.action_registry.add('recreation_scoreboard', Scoreboard);
 

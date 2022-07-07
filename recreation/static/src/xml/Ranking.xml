@@ -2,28 +2,36 @@
 <template id="template" xml:space="preserve">
     
     <t t-name="ranking" owl="1">
-        <div class="ranking-element" t-on-click.stop="">
-            <div class="ranking">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Team</th>
-                            <th>Wins</th>
-                            <th>Losses</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <t t-foreach="props.element.teams" t-as="team" t-key="team.id">
-                            <tr>
-                                <td><t t-esc="team.teamName"/></td>
-                                <td><t t-esc="team.wins"/></td>
-                                <td><t t-esc="team.losses"/></td>
-                            </tr>
-                        </t>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+        <Draggable limitArea="'.scoreboard'">
+            <Resizeable limitArea="'.scoreboard'">
+                <div class="scoreboard-element ranking-element drag-handle" t-on-click.stop="">
+                    <div class="ranking">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Rank</th>
+                                    <th>Team</th>
+                                    <th>Wins</th>
+                                    <th>Losses</th>
+                                    <th>Ties</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="props.element.teams" t-as="team" t-key="team.id">
+                                    <tr>
+                                        <td><t t-esc="team.rank"/></td>
+                                        <td><t t-esc="team.teamName"/></td>
+                                        <td><t t-esc="team.wins"/></td>
+                                        <td><t t-esc="team.losses"/></td>
+                                        <td><t t-esc="team.ties"/></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </Resizeable>
+        </Draggable>
     </t>
 
 </template>
