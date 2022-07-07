@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template id="template" xml:space="preserve">
+    
+    <t t-name="ranking" owl="1">
+        <div class="ranking-element" t-on-click.stop="">
+            <div class="ranking">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Team</th>
+                            <th>Wins</th>
+                            <th>Losses</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="props.element.teams" t-as="team" t-key="team.id">
+                            <tr>
+                                <td><t t-esc="team.teamName"/></td>
+                                <td><t t-esc="team.wins"/></td>
+                                <td><t t-esc="team.losses"/></td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </t>
+
+</template>

@@ -1,8 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <template id="template" xml:space="preserve">
     
-    <t t-name="scoreboard">
-        <span>test</span>
+    <t t-name="scoreboard" owl="1">
+        <div class="scoreboard-screen screen">
+            <div class="screen-content-flexbox">
+                <div
+                    t-on-click="trigger('deselect-element')" 
+                    class="scoreboard"
+                    t-ref="scoreboard-ref"
+                >
+                    <div t-if="isScoreboardEmpty" class="empty-scoreboard">
+                        <span>This floor has no tables yet, use the </span>
+                        <i class="fa fa-plus" role="img" aria-label="Add button" title="Add button"></i>
+                        <span> button in the editing toolbar to create new tables.</span>
+                    </div>
+                    <div t-else="" class="scoreboard-elements">
+                        <t t-foreach="activeScoreboardElements" t-as="scoreboardElement" t-key="scoreboardElement.id">
+                            <Score t-if="scoreboardElement.type=='score'" element="scoreboardElement"/>
+                            <Ranking t-if="scoreboardElement.type=='ranking'" element="scoreboardElement"/>
+                        </t>
+                    </div>
+                </div>
+            </div>
+        </div>
     </t>
 
 </template>

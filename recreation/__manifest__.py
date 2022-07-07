@@ -28,7 +28,7 @@
     ],
     'assets': {
         'web.assets_backend': [
-            'recreation/static/src/js/Scoreboard.js'
+            'recreation/static/src/js/**/*.js'
         ],
         'web.assets_qweb': [
             'recreation/static/src/xml/**/*.xml',
