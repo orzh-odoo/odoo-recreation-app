@@ -39,7 +39,7 @@ class RecreationMatch(models.Model):
     @api.depends('start_time', 'activity_time')
     def _compute_end_time(self):
         for match in self:
-            if not (match.start_time and match.end_time):
+            if not (match.start_time and match.activity_time):
                 match.end_time = match.start_time
             else:
                 duration = timedelta(minutes=match.activity_time)
