@@ -3,6 +3,7 @@
 import core from 'web.core';
 import Score from './Score';
 import Ranking from './Ranking';
+import Upcoming from './Upcoming';
 
 const { Component } = owl;
 
@@ -48,6 +49,24 @@ class Scoreboard extends Component{
                         ties: 1
                     }
                 ]
+            },
+            {
+                id: 3,
+                type: 'upcoming',
+                teams: [
+                    {
+                        id: 1,
+                        teamName: "Team Awesome",
+                        location: "Break Room",
+                        startTime: "2:00 PM"
+                    },
+                    {
+                        id: 2,
+                        teamName: "Team Awesome",
+                        location: "Break Room",
+                        startTime: "2:30 PM"
+                    }
+                ]
             }
         ];
     }
@@ -56,7 +75,8 @@ class Scoreboard extends Component{
 Scoreboard.template = 'scoreboard';
 Scoreboard.components = {
     Ranking,
-    Score
+    Score,
+    Upcoming
 };
 
 core.action_registry.add('recreation_scoreboard', Scoreboard);

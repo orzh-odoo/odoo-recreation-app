@@ -18,6 +18,7 @@
                         <t t-foreach="activeScoreboardElements" t-as="scoreboardElement" t-key="scoreboardElement.id">
                             <Score t-if="scoreboardElement.type=='score'" element="scoreboardElement"/>
                             <Ranking t-if="scoreboardElement.type=='ranking'" element="scoreboardElement"/>
+                            <Upcoming t-if="scoreboardElement.type=='upcoming'" element="scoreboardElement"/>
                         </t>
                     </div>
                 </div>

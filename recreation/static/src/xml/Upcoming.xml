@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template id="template" xml:space="preserve">
+
+    <t t-name="upcoming" owl="1">
+        <Draggable limitArea="'.scoreboard'">
+            <Resizeable limitArea="'.scoreboard'">
+                <div class="scoreboard-element upcoming-element drag-handle" t-on-click.stop="">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Team</th>
+                                <th>Location</th>
+                                <th>Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="props.element.teams" t-as="team" t-key="team.id">
+                                <tr>
+                                    <td><t t-esc="team.teamName"/></td>
+                                    <td><t t-esc="team.location"/></td>
+                                    <td><t t-esc="team.startTime"/></td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </Resizeable>
+        </Draggable>
+    </t>
+
+</template>
