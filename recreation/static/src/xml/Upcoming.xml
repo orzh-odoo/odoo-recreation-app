@@ -4,25 +4,35 @@
     <t t-name="upcoming" owl="1">
         <Draggable limitArea="'.scoreboard'">
             <Resizeable limitArea="'.scoreboard'">
-                <div class="scoreboard-element upcoming-element drag-handle" t-on-click.stop="">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Team</th>
-                                <th>Location</th>
-                                <th>Time</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <t t-foreach="props.element.teams" t-as="team" t-key="team.id">
+                <div class="scoreboard-element">
+                    <div class="upcoming-element drag-handle" t-on-click.stop="">
+                        <table>
+                            <thead>
                                 <tr>
-                                    <td><t t-esc="team.teamName"/></td>
-                                    <td><t t-esc="team.location"/></td>
-                                    <td><t t-esc="team.startTime"/></td>
+                                    <th>Team</th>
+                                    <th>Location</th>
+                                    <th>Time</th>
                                 </tr>
-                            </t>
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="props.element.teams" t-as="team" t-key="team.id">
+                                    <tr>
+                                        <td><t t-esc="team.teamName"/></td>
+                                        <td><t t-esc="team.location"/></td>
+                                        <td><t t-esc="team.startTime"/></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="resize-handle top resize-handle-n"></div>
+                    <div class="resize-handle bottom resize-handle-s"></div>
+                    <div class="resize-handle left resize-handle-w"></div>
+                    <div class="resize-handle right resize-handle-e"></div>
+                    <span class='resize-handle top right resize-handle-ne'></span>
+                    <span class='resize-handle top left resize-handle-nw'></span>
+                    <span class='resize-handle bottom right resize-handle-se'></span>
+                    <span class='resize-handle bottom left resize-handle-sw'></span>
                 </div>
             </Resizeable>
         </Draggable>

@@ -4,31 +4,41 @@
     <t t-name="ranking" owl="1">
         <Draggable limitArea="'.scoreboard'">
             <Resizeable limitArea="'.scoreboard'">
-                <div class="scoreboard-element ranking-element drag-handle" t-on-click.stop="">
-                    <div class="ranking">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Rank</th>
-                                    <th>Team</th>
-                                    <th>Wins</th>
-                                    <th>Losses</th>
-                                    <th>Ties</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <t t-foreach="props.element.teams" t-as="team" t-key="team.id">
+                <div class="scoreboard-element">
+                    <div class="ranking-element drag-handle" t-on-click.stop="">
+                        <div class="ranking">
+                            <table>
+                                <thead>
                                     <tr>
-                                        <td><t t-esc="team.rank"/></td>
-                                        <td><t t-esc="team.teamName"/></td>
-                                        <td><t t-esc="team.wins"/></td>
-                                        <td><t t-esc="team.losses"/></td>
-                                        <td><t t-esc="team.ties"/></td>
+                                        <th>Rank</th>
+                                        <th>Team</th>
+                                        <th>Wins</th>
+                                        <th>Losses</th>
+                                        <th>Ties</th>
                                     </tr>
-                                </t>
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="props.element.teams" t-as="team" t-key="team.id">
+                                        <tr>
+                                            <td><t t-esc="team.rank"/></td>
+                                            <td><t t-esc="team.teamName"/></td>
+                                            <td><t t-esc="team.wins"/></td>
+                                            <td><t t-esc="team.losses"/></td>
+                                            <td><t t-esc="team.ties"/></td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
+                    <div class="resize-handle top resize-handle-n"></div>
+                    <div class="resize-handle bottom resize-handle-s"></div>
+                    <div class="resize-handle left resize-handle-w"></div>
+                    <div class="resize-handle right resize-handle-e"></div>
+                    <span class='resize-handle top right resize-handle-ne'></span>
+                    <span class='resize-handle top left resize-handle-nw'></span>
+                    <span class='resize-handle bottom right resize-handle-se'></span>
+                    <span class='resize-handle bottom left resize-handle-sw'></span>
                 </div>
             </Resizeable>
         </Draggable>

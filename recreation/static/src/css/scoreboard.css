@@ -4,12 +4,16 @@
 
 .scoreboard-element {
     position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
 }
 
 .score-element {
     display: flex;
     column-gap: 3em;
-    justify-content: space-around;
+    justify-content: space-between;
 }
 
 .team-score {
@@ -20,8 +24,36 @@
 
 .score-team-name {
     font-size: 2em;
+    text-align: center;
 }
 
 .score-score {
     font-size: 10em;
+}
+
+.resize-handle {
+    height: 5px;
+    width: 5px;
+    background-color: black;
+    position:absolute;
+    top: 50%;
+    left: 50%;
+}
+
+.left{
+    left:0%
+}
+
+.right{
+    left: auto;
+    right: 0%;
+}
+
+.top {
+    top:0%;
+}
+
+.bottom {
+    top: auto;
+    bottom: 0%;
 }

@@ -4,4 +4,4 @@ team_admin,team admin,model_recreation_team,,1,1,1,1
 match_admin,match admin,model_recreation_match,,1,1,1,1
 result_admin,result admin,model_recreation_result,,1,1,1,1
 location_admin,location admin,model_recreation_location,,1,1,1,1
-
+scoreboard_element_admin,scoreboard element admin,model_recreation_scoreboard_element,,1,1,1,1

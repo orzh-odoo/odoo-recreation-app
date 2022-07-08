@@ -10,7 +10,7 @@ const { Component } = owl;
 class Scoreboard extends Component{
 
     get isScoreboardEmpty() { 
-        return false; 
+        return this.activeScoreboardElements.length === 0; 
     }
     get activeScoreboardElements() {
         return [
@@ -69,6 +69,13 @@ class Scoreboard extends Component{
                 ]
             }
         ];
+    }
+    async _save(element) {
+        // TODO: save the element
+    }
+    async _onSaveElement(event) {
+        const element = event.detail;
+        await this._save(element);
     }
 }
 
