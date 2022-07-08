@@ -1,6 +1,7 @@
 /** @odoo-module **/
 
 import core from 'web.core';
+import { useService } from "@web/core/utils/hooks";
 import Score from './Score';
 import Ranking from './Ranking';
 import Upcoming from './Upcoming';
@@ -8,6 +9,10 @@ import Upcoming from './Upcoming';
 const { Component } = owl;
 
 class Scoreboard extends Component{
+    setup() {
+        this.ormService = useService("orm");
+        console.log(this.ormService.searchRead('recreation.match', [], []))
+    }
 
     get isScoreboardEmpty() { 
         return this.activeScoreboardElements.length === 0; 
