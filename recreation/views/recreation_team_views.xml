@@ -6,8 +6,14 @@
             <field name="model">recreation.team</field>
             <field name="arch" type="xml">
                 <form string="Team">
+                    
                     <sheet>
                         <h1><field name="name" /></h1>
+                        <group>
+                            <field name="wins" />
+                            <field name="losses" />
+                            <field name="ties" />
+                        </group>
                         <notebook>
                             <page name="matches" string="Matches">
                                 <field name="match_ids" />
