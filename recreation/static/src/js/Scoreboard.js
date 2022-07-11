@@ -23,7 +23,7 @@ class Scoreboard extends Component {
 
     async load() {
         const data = await this.ormService.searchRead('recreation.match', [['activity_id.name', '=', 'Darts']], []);
-        const teams = await (await Promise.all(data[0].team_ids.map(id => this.ormService.searchRead('recreation.team', [['id', '=', id]], [])))).map(ele => ele[0].name);
+        const teams = await (await Promise.all(data[0].team_ids.map(id => this.ormService.searchRead('recreation.team', [['id', '=', id]], [])))).map(ele => ele[0]);
         const location = data[0].location_id[1]
         const startTime = data[0].start_time;
         return { teams, location, startTime };
@@ -39,11 +39,11 @@ class Scoreboard extends Component {
                 type: 'score',
                 scores: [
                     {
-                        teamName: this.teams[0],
+                        teamName: this.teams[0].name,
                         points: 5
                     },
                     {
-                        teamName: this.teams[1],
+                        teamName: this.teams[1].name,
                         points: 6
                     }
                 ]
@@ -55,18 +55,18 @@ class Scoreboard extends Component {
                     {
                         id: 3,
                         rank: 1,
-                        teamName: this.teams[0],
-                        wins: 1,
-                        losses: 0,
-                        ties: 1
+                        teamName: this.teams[0].name,
+                        wins: this.teams[0].wins,
+                        losses: this.teams[0].losses,
+                        ties: this.teams[0].ties
                     },
                     {
                         id: 3,
                         rank: 2,
-                        teamName: this.teams[1],
-                        wins: 0,
-                        losses: 1,
-                        ties: 1
+                        teamName: this.teams[1].name,
+                        wins: this.teams[1].wins,
+                        losses: this.teams[1].losses,
+                        ties: this.teams[1].ties
                     }
                 ]
             },
@@ -76,13 +76,13 @@ class Scoreboard extends Component {
                 teams: [
                     {
                         id: 1,
-                        teamName: this.teams[0],
+                        teamName: this.teams[0].name,
                         location: this.location,
                         startTime: this.startTime
                     },
                     {
                         id: 2,
-                        teamName: this.teams[1],
+                        teamName: this.teams[1].name,
                         location: this.location,
                         startTime: this.startTime
                     }

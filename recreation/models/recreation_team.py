@@ -14,7 +14,7 @@ class RecreationTeam(models.Model):
     rating = fields.Float(string='Rating')
     wins = fields.Integer(compute='_compute_results')
     losses = fields.Integer(compute='_compute_results')
-    ties = fields.Integer(compute='_compute_resultss')
+    ties = fields.Integer(compute='_compute_results')
 
     @api.depends('match_ids')
     def _compute_results(self):
