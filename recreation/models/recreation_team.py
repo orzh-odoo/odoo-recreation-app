@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from odoo import models, fields
+from odoo import models, fields, api
 
 
 class RecreationTeam(models.Model):
@@ -11,4 +11,23 @@ class RecreationTeam(models.Model):
     activity_ids = fields.Many2many(comodel_name='recreation.activity', string='Activities')
     team_member_ids = fields.Many2many(comodel_name='res.partner', string='Team Members')
     match_ids = fields.Many2many(comodel_name='recreation.match', string='Matches')
-    rating = fields.Float(string="Rating")
+    rating = fields.Float(string='Rating')
+    wins = fields.Integer(compute='_compute_results')
+    losses = fields.Integer(compute='_compute_results')
+    ties = fields.Integer(compute='_compute_resultss')
+
+    @api.depends('match_ids')
+    def _compute_results(self):
+        for team in self:
+            wins, losses, ties = 0, 0, 0
+            for match in self.match_ids:
+                if match.status == 'done':
+                    if match.winner == team:
+                        wins += 1
+                    elif not match.winner:
+                        ties += 1
+                    else:
+                        losses += 1
+            team.wins = wins
+            team.losses = losses
+            team.ties = ties
