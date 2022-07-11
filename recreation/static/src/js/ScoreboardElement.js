@@ -26,6 +26,12 @@ class ScoreboardElement extends Component{
         if (element.color) {
             style.background = element.color;
         }
+        if (element.edit) {
+            this.el.firstChild.classList.add('drag-handle')
+        }
+        else {
+            this.el.firstChild.classList.remove('drag-handle')
+        }
         Object.assign(this.el.style, style);
     }
     _onResizeEnd(event) {

@@ -7,8 +7,20 @@ import Ranking from './Ranking';
 import Upcoming from './Upcoming';
 
 const { Component } = owl;
+const { useListener } = require('web.custom_hooks');
+const { useState } = owl.hooks;
+
 
 class Scoreboard extends Component{
+    constructor(){
+        super(...arguments);
+        useListener('select-element', this._onSelectElement);
+        useListener('deselect-element', this._onDeselectElement);
+        this.state = useState({
+            selectedElementId: null,
+            isEditMode: true,
+        });
+    }
     setup() {
         this.ormService = useService("orm");
     }
@@ -17,7 +29,7 @@ class Scoreboard extends Component{
         return this.activeScoreboardElements.length === 0; 
     }
     get activeScoreboardElements() {
-        return [
+        let data = [
             {
                 id: 1,
                 type: 'score',
@@ -30,7 +42,7 @@ class Scoreboard extends Component{
                         teamName: 'Team Cool',
                         points: 6
                     }
-                ]
+                ],
             },
             {
                 id: 2,
@@ -73,6 +85,19 @@ class Scoreboard extends Component{
                 ]
             }
         ];
+        for (let element of data) {
+            element.edit = element.id === this.state.selectedElementId;
+        }
+        return data;
+    }
+    _onSelectElement(event) {
+        const element = event.detail;
+        if (this.state.isEditMode) {
+            this.state.selectedElementId = element.id;
+        }
+    }
+    _onDeselectElement() {
+        this.state.selectedElementId = null;
     }
     async _save(element) {
         // TODO: save the element
