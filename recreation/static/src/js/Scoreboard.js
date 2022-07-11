@@ -23,7 +23,7 @@ class Scoreboard extends Component{
         });
     }
 
-    async setup() {
+    setup() {
         this.ormService = useService("orm");
         onWillStart(async () => {
             const { teams, location, startTime } = await this.load();
