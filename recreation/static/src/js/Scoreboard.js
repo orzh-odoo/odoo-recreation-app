@@ -17,16 +17,19 @@ class Scoreboard extends Component{
         super(...arguments);
         useListener('select-element', this._onSelectElement);
         useListener('deselect-element', this._onDeselectElement);
+        useListener('save-element', this._onSaveElement);
         this.state = useState({
             selectedElementId: null,
             isEditMode: true,
         });
+        this.scoreboardElements = [];
     }
 
     setup() {
         this.ormService = useService("orm");
         onWillStart(async () => {
-            const { teams, location, startTime } = await this.load();
+            const { scoreboardElements, teams, location, startTime } = await this.load();
+            this.scoreboardElements = scoreboardElements;
             this.teams = teams;
             this.location = location;
             this.startTime = startTime;
@@ -34,18 +37,38 @@ class Scoreboard extends Component{
     }
 
     async load() {
+        const scoreboardElements = await this.ormService.searchRead('recreation.scoreboard.element', [], []);
         const data = await this.ormService.searchRead('recreation.match', [['activity_id.name', '=', 'Darts']], []);
         const teams = await (await Promise.all(data[0].team_ids.map(id => this.ormService.searchRead('recreation.team', [['id', '=', id]], [])))).map(ele => ele[0]);
-        const location = data[0].location_id[1]
+        const location = data[0].location_id[1];
         const startTime = data[0].start_time;
-        return { teams, location, startTime };
+        return { scoreboardElements, teams, location, startTime };
     }
 
     get isScoreboardEmpty() {
         return this.activeScoreboardElements.length === 0;
     }
     get activeScoreboardElements() {
-        let data = [
+        let data = []
+        for (let record of this.scoreboardElements){
+            let element = {};
+
+            element.id = record.id;
+            element.type = record.element_type;
+            element.teams = [];
+
+            element.width = record.width;
+            element.height = record.height;
+            element.position_v = record.position_v;
+            element.position_h = record.position_h;
+
+            element.edit = element.id === this.state.selectedElementId;
+            data.push(element)
+        }
+
+        return data;
+
+        data = [
             {
                 id: 1,
                 type: 'score',
@@ -115,8 +138,20 @@ class Scoreboard extends Component{
     _onDeselectElement() {
         this.state.selectedElementId = null;
     }
+    async _create(element) {
+
+    }
+    async _onCreateElement (event){
+        const element = event.detail;
+        await this._create(element);
+    }
     async _save(element) {
-        // TODO: save the element
+        let data = {};
+        data.position_v = element.position_v;
+        data.position_h = element.position_h;
+        if (element.height) data.height = element.height;
+        if (element.width) data.width = element.width;
+        this.ormService.write('recreation.scoreboard.element', [element.id], data)
     }
     async _onSaveElement(event) {
         const element = event.detail;

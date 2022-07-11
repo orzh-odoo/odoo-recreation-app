@@ -8,6 +8,7 @@
     justify-content: center;
     align-items: center;
     overflow: hidden;
+    user-select: none;
 }
 
 .score-element {
@@ -56,4 +57,24 @@
 .bottom {
     top: auto;
     bottom: 0%;
+}
+
+.drag-handle {
+    cursor: move;
+}
+
+.left, .right {
+    cursor: ew-resize;
+}
+
+.top, .bottom {
+    cursor: ns-resize;
+}
+
+.top.left, .bottom.right {
+    cursor: nwse-resize;
+}
+
+.top.right, .bottom.left {
+    cursor: nesw-resize;
 }
