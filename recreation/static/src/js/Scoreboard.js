@@ -11,7 +11,6 @@ const { Component } = owl;
 class Scoreboard extends Component{
     setup() {
         this.ormService = useService("orm");
-        console.log(this.ormService.searchRead('recreation.match', [], []))
     }
 
     get isScoreboardEmpty() { 
