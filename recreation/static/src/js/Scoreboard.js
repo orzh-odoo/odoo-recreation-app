@@ -11,9 +11,8 @@ const { useListener } = require('web.custom_hooks');
 const { useState } = owl.hooks;
 const { onWillStart } = owl.hooks;
 
-
-class Scoreboard extends Component{
-    constructor(){
+class Scoreboard extends Component {
+    constructor() {
         super(...arguments);
         useListener('select-element', this._onSelectElement);
         useListener('deselect-element', this._onDeselectElement);
@@ -25,7 +24,7 @@ class Scoreboard extends Component{
         this.scoreboardElements = [];
     }
 
-    setup() {
+    async setup() {
         this.ormService = useService("orm");
         onWillStart(async () => {
             const { scoreboardElements, teams, location, startTime } = await this.load();
@@ -38,10 +37,10 @@ class Scoreboard extends Component{
 
     async load() {
         const scoreboardElements = await this.ormService.searchRead('recreation.scoreboard.element', [], []);
-        const data = await this.ormService.searchRead('recreation.match', [['activity_id.name', '=', 'Darts']], []);
-        const teams = await (await Promise.all(data[0].team_ids.map(id => this.ormService.searchRead('recreation.team', [['id', '=', id]], [])))).map(ele => ele[0]);
-        const location = data[0].location_id[1];
-        const startTime = data[0].start_time;
+        const data = this.props.match
+        const teams = await (await Promise.all(data.team_ids.map(id => this.ormService.searchRead('recreation.team', [['id', '=', id]], [])))).map(ele => ele[0]);
+        const location = data.location_id[1];
+        const startTime = data.start_time;
         return { scoreboardElements, teams, location, startTime };
     }
 
@@ -50,23 +49,23 @@ class Scoreboard extends Component{
     }
     get activeScoreboardElements() {
         let data = []
-        for (let record of this.scoreboardElements){
-            let element = {};
+        // for (let record of this.scoreboardElements) {
+        //     let element = {};
 
-            element.id = record.id;
-            element.type = record.element_type;
-            element.teams = [];
+        //     element.id = record.id;
+        //     element.type = record.element_type;
+        //     element.teams = [];
 
-            element.width = record.width;
-            element.height = record.height;
-            element.position_v = record.position_v;
-            element.position_h = record.position_h;
+        //     element.width = record.width;
+        //     element.height = record.height;
+        //     element.position_v = record.position_v;
+        //     element.position_h = record.position_h;
 
-            element.edit = element.id === this.state.selectedElementId;
-            data.push(element)
-        }
+        //     element.edit = element.id === this.state.selectedElementId;
+        //     data.push(element)
+        // }
 
-        return data;
+        // return data;
 
         data = [
             {
@@ -141,7 +140,7 @@ class Scoreboard extends Component{
     async _create(element) {
 
     }
-    async _onCreateElement (event){
+    async _onCreateElement(event) {
         const element = event.detail;
         await this._create(element);
     }
@@ -165,7 +164,5 @@ Scoreboard.components = {
     Score,
     Upcoming
 };
-
-core.action_registry.add('recreation_scoreboard', Scoreboard);
 
 export default Scoreboard;

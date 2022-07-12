@@ -34,9 +34,9 @@
             </field>
         </record>
 
-        <record id="recreation_action_scoreboard" model="ir.actions.client">
-            <field name="name">Scoreboard</field>
-            <field name="tag">recreation_scoreboard</field>
+        <record id="recreation_action_app" model="ir.actions.client">
+            <field name="name">Recreation App</field>
+            <field name="tag">recreation_app</field>
             <field name="target">fullscreen</field>
         </record>
 
@@ -47,7 +47,7 @@
         <menuitem id="recreation_activity_menu" name="Activities" parent="recreation_sub_menu" sequence="3" action="activity_list_action"/>
         <menuitem id="recreation_team_menu" name="Teams" parent="recreation_sub_menu" sequence="4" action="team_list_action"/>
         <menuitem id="recreation_match_menu" name="Matches" parent="recreation_sub_menu" sequence="5" action="match_list_action"/>
-        <menuitem id="recreation_scoreboard_menu" name="Scoreboard" parent="recreation_sub_menu" sequence="6" action="recreation_action_scoreboard"/>
+        <menuitem id="recreation_app_menu" name="App" parent="recreation_sub_menu" sequence="6" action="recreation_action_app"/>
 
 
 
