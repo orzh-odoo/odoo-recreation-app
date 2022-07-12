@@ -4,15 +4,14 @@
     <t t-name="scoreboard" owl="1">
         <div class="scoreboard-screen screen">
             <div class="screen-content-flexbox">
+                <button t-on-click="props.onMatchListClick">To Matches List</button>
                 <div
                     t-on-click="trigger('deselect-element')" 
                     class="scoreboard"
                     t-ref="scoreboard-ref"
                 >
                     <div t-if="isScoreboardEmpty" class="empty-scoreboard">
-                        <span>This floor has no tables yet, use the </span>
-                        <i class="fa fa-plus" role="img" aria-label="Add button" title="Add button"></i>
-                        <span> button in the editing toolbar to create new tables.</span>
+                        <span>This scoreboard has no elements yet, use the buttons in the editing toolbar to create new elements.</span>
                     </div>
                     <div t-else="" class="scoreboard-elements">
                         <t t-foreach="activeScoreboardElements" t-as="scoreboardElement" t-key="scoreboardElement.id">
@@ -20,6 +19,12 @@
                             <Ranking t-if="scoreboardElement.type=='ranking'" element="scoreboardElement"/>
                             <Upcoming t-if="scoreboardElement.type=='upcoming'" element="scoreboardElement"/>
                         </t>
+                    </div>
+                    <div class="scoreboard-edit-bar">
+                        <i class="fa fa-calculator fa-lg" role="img" aria-label="Add score button" title="Add score" t-on-click.stop="trigger('create-element', 'score')"></i>
+                        <i class="fa fa-newspaper-o fa-lg" role="img" aria-label="Add ranking button" title="Add ranking" t-on-click.stop="trigger('create-element', 'ranking')"></i>
+                        <i class="fa fa-calendar fa-lg" role="img" aria-label="Add upcoming button" title="Add upcoming" t-on-click.stop="trigger('create-element', 'upcoming')"></i>
+                        <i class="fa fa-trash fa-lg" role="img" aria-label="Remove button" title="Remove" t-on-click.stop="trigger('remove-element')"></i>
                     </div>
                 </div>
             </div>

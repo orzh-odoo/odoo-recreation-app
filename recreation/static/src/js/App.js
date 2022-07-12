@@ -8,10 +8,10 @@ import MatchList from './MatchList'
 import Scoreboard from './Scoreboard'
 
 class App extends Component {
-    state = useState({route: '/'})
+    state = useState({route: '/matchlist'})
     matchData = useState({})
 
-    matchListButtonHandler = event => {
+    matchListButtonHandler = () =>{
         this.state.route = '/matchlist'
     }
 

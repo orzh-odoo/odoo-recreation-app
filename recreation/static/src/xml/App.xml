@@ -3,9 +3,8 @@
     
     <t t-name="app" owl="1">
         <div class="app-screen screen">
-            <button t-on-click="matchListButtonHandler">To MatchList</button>
             <MatchList t-if="checkMatchListRoute" onMatchItemClick="matchItemClickHandler"/>
-            <Scoreboard t-if="checkScoreBoardRoute" match="getMatchData"/>
+            <Scoreboard t-if="checkScoreBoardRoute" match="getMatchData" onMatchListClick="matchListButtonHandler"/>
         </div>
     </t>
 
