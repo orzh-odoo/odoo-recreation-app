@@ -18,11 +18,11 @@ class ScoreboardElement extends Component{
             return `${val}px`;
         }
         const style = {
-            width: unit(element.width),
-            height: unit(element.height),
             top: unit(element.position_v),
             left: unit(element.position_h),
         };
+        if (element.width > 0) style.width = unit(element.width);
+        if (element.height > 0) style.height = unit(element.height);
         if (element.color) {
             style.background = element.color;
         }
@@ -37,6 +37,7 @@ class ScoreboardElement extends Component{
     _onResizeEnd(event) {
         const { size, loc } = event.detail;
         const element = this.props.element;
+        
         element.width = size.width;
         element.height = size.height;
         element.position_v = loc.top;

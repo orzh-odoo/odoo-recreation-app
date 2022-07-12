@@ -78,3 +78,12 @@
 .top.right, .bottom.left {
     cursor: nesw-resize;
 }
+
+.scoreboard-edit-bar {
+    display: flex;
+    column-gap: 1em;
+    width: min-content;
+    position: absolute;
+    top: 1em;
+    right: 1em;
+}
