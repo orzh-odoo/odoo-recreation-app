@@ -13,7 +13,6 @@ class MatchList extends Component {
             const matches = await this.load();
             this.matches = useState(matches)
         });
-        console.log('loaded!');
     }
 
     async load(){
