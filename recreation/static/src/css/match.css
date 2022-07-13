@@ -1,9 +1,41 @@
 .match{
-    margin: 10px;
     padding: 10px;
-    border-radius: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-top: 1px solid white;
     font-size: 20px;
     font-weight: bold;
     color: #f2e6ff;
     background-color: #660066;
+    display: flex;
+    align-items: center;
+}
+
+.loserNamePreview{
+    color: salmon
+}
+
+.winnerNamePreview{
+    color: lime;
+}
+
+.namePreview{
+    flex: 2;
+}
+
+.scorePreview{
+    flex: 2;
+}
+
+.activityPreview{
+    flex: 1;
+
+}
+
+.startTimePreview{
+    flex: 1;
+}
+
+.match:hover{
+    cursor: pointer;
 }
