@@ -31,7 +31,8 @@ class Scoreboard extends Component {
         this.ormService = useService("orm");
         onWillStart(async () => {
             await this.fetchScoreboardElements()
-            const { teams, location, startTime } = await this.load();
+            const { results, teams, location, startTime } = await this.load();
+            this.results = results;
             this.teams = teams;
             this.location = location;
             this.startTime = startTime;
@@ -40,10 +41,13 @@ class Scoreboard extends Component {
 
     async load() {
         const data = this.props.match
-        const teams = await (await Promise.all(data.team_ids.map(id => this.ormService.searchRead('recreation.team', [['id', '=', id]], [])))).map(ele => ele[0]);
+        const results = await (await Promise.all(data.result_ids.map(id => this.ormService.searchRead('recreation.result', [['id', '=', id]], [])))).map(ele => ele[0]);
+        const teams = await (await Promise.all(results.map(result => this.ormService.searchRead('recreation.team', [['id', '=', result.team_id[0]]], [])))).map(ele => ele[0]);
         const location = data.location_id[1];
         const startTime = data.start_time;
-        return { teams, location, startTime };
+        console.log(results);
+        console.log(teams);
+        return { results, teams, location, startTime };
     }
 
     async fetchScoreboardElements() {
@@ -63,6 +67,7 @@ class Scoreboard extends Component {
             element.id = record.id;
             element.type = record.element_type;
             element.teams = [];
+            element.scores = [];
 
             element.width = record.width;
             element.height = record.height;
@@ -70,36 +75,26 @@ class Scoreboard extends Component {
             element.position_h = record.position_h;
 
             if (element.type == 'ranking') {
-                element.teams = [
-                        {
-                            id: 3,
-                            rank: 1,
-                            teamName: this.teams[0].name,
-                            wins: this.teams[0].wins,
-                            losses: this.teams[0].losses,
-                            ties: this.teams[0].ties
-                        },
-                        {
-                            id: 3,
-                            rank: 2,
-                            teamName: this.teams[1].name,
-                            wins: this.teams[1].wins,
-                            losses: this.teams[1].losses,
-                            ties: this.teams[1].ties
-                        }
-                ];
+                let teams = [];
+                for (let i = 0; i < this.results.length; i++){
+                    teams.push({
+                        id: this.results[i].team_id[0],
+                        teamName: this.results[i].team_id[1],
+                        wins: this.teams[i].wins,
+                        losses: this.teams[i].losses,
+                        ties: this.teams[i].ties
+                    })
+                }
+                teams.sort((a, b) => (a.wins > b.wins ? -1 : 1))
+                element.teams = teams.map((ele, idx) => {return {...ele, rank: idx + 1}})
             }
             else if (element.type == 'score') {
-                element.scores = [
-                    {
-                        teamName: this.teams[0].name,
-                        points: 5
-                    },
-                    {
-                        teamName: this.teams[1].name,
-                        points: 6
-                    }
-                ];
+                for (let result of this.results){
+                    element.scores.push({
+                        teamName: result.team_id[1],
+                        points: result.score
+                    })
+                }
             }
             else if (element.type == 'upcoming') {
                 element.teams = [
