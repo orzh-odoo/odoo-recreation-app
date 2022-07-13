@@ -22,7 +22,7 @@ class Scoreboard extends Component {
         useListener('toggle-edit', this._onToggleEdit);
         this.state = useState({
             selectedElementId: null,
-            isEditMode: true,
+            isEditMode: false,
         });
         this.scoreboardElements = [];
     }
@@ -45,8 +45,6 @@ class Scoreboard extends Component {
         const teams = await (await Promise.all(results.map(result => this.ormService.searchRead('recreation.team', [['id', '=', result.team_id[0]]], [])))).map(ele => ele[0]);
         const location = data.location_id[1];
         const startTime = data.start_time;
-        console.log(results);
-        console.log(teams);
         return { results, teams, location, startTime };
     }
 
@@ -91,6 +89,7 @@ class Scoreboard extends Component {
             else if (element.type == 'score') {
                 for (let result of this.results){
                     element.scores.push({
+                        id: result.id,
                         teamName: result.team_id[1],
                         points: result.score
                     })

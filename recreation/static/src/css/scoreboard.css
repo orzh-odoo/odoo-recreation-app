@@ -12,6 +12,7 @@
 }
 
 .score-element {
+    width: 100%;
     display: flex;
     column-gap: 3em;
     justify-content: space-between;

@@ -4,7 +4,7 @@
     <t t-name="scoreboard" owl="1">
         <div class="scoreboard-screen screen">
             <div class="screen-content-flexbox">
-                <button t-on-click="props.onMatchListClick">To Matches List</button>
+                <button class="btn btn-primary" t-on-click="props.onMatchListClick">To Matches List</button>
                 <div
                     t-on-click="trigger('deselect-element')" 
                     class="scoreboard"
