@@ -13,6 +13,11 @@
                             <div class="score-score">
                                 <t t-esc="score.points"/>
                             </div>
+                            <div class="score-controls btn-group">
+                                <button type="button" class="btn btn-primary">-</button>
+                                <input  class="form-control score-increment" type="text" value="1"/>
+                                <button type="button" class="btn btn-primary">+</button>
+                            </div>
                         </div>
                     </div>
                     <t t-if="props.element.edit">
