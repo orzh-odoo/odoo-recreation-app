@@ -2,7 +2,7 @@
 <template id="template" xml:space="preserve">
     
     <t t-name="match" owl="1">
-        <div t-esc="props.data.name" t-on-click="onClick"/>
+        <div class="match" t-esc="props.data.name" t-on-click="onClick"/>
     </t>
 
 </template>

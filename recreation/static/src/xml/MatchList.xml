@@ -2,7 +2,8 @@
 <template id="template" xml:space="preserve">
     
     <t t-name="matchlist" owl="1">
-        <div class="matchlist-screen screen">
+        <div class="matchlist">
+            <h1 class="header">Matches</h1>
             <div class="screen-content-flexbox">
                     <div class="match-elements">
                         <t t-foreach="activeMatchElements" t-as="matchElement" t-key="matchElement.id">
