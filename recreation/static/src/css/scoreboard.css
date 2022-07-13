@@ -87,3 +87,8 @@
     top: 1em;
     right: 1em;
 }
+
+.score-increment {
+    width: 5ch;
+    text-align: center;
+}

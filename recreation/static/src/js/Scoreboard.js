@@ -19,6 +19,7 @@ class Scoreboard extends Component {
         useListener('save-element', this._onSaveElement);
         useListener('create-element', this._onCreateElement);
         useListener('remove-element', this._onRemoveElement);
+        useListener('toggle-edit', this._onToggleEdit);
         this.state = useState({
             selectedElementId: null,
             isEditMode: true,
@@ -130,6 +131,10 @@ class Scoreboard extends Component {
         }
     }
     _onDeselectElement() {
+        this.state.selectedElementId = null;
+    }
+    _onToggleEdit() {
+        this.state.isEditMode = !this.state.isEditMode;
         this.state.selectedElementId = null;
     }
     async _create(elementType) {

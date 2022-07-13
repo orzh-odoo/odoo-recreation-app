@@ -22,7 +22,7 @@
                                 <field name="team_member_ids" />
                             </page>
                             <page name="activities" string="Activities">
-                                <field name="activity_ids" />
+                                <field name="activity_id" />
                             </page>
                         </notebook>
                     </sheet>
