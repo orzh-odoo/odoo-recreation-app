@@ -27,5 +27,32 @@
             <field name="team_id" ref="recreation.nice_team"/>
             <field name="score">170</field>
         </record>
+
+        <record model="recreation.result" id="result_7">
+            <field name="team_id" ref="recreation.epic_team"/>
+            <field name="score">34</field>
+        </record>
+        <record model="recreation.result" id="result_8">
+            <field name="team_id" ref="recreation.spicy_team"/>
+            <field name="score">46</field>
+        </record>
+
+        <record model="recreation.result" id="result_9">
+            <field name="team_id" ref="recreation.awesome_team"/>
+            <field name="score">135</field>
+        </record>
+        <record model="recreation.result" id="result_10">
+            <field name="team_id" ref="recreation.great_team"/>
+            <field name="score">124</field>
+        </record>
+
+        <record model="recreation.result" id="result_11">
+            <field name="team_id" ref="recreation.nice_team"/>
+            <field name="score">90</field>
+        </record>
+        <record model="recreation.result" id="result_12">
+            <field name="team_id" ref="recreation.nasty_team"/>
+            <field name="score">110</field>
+        </record>
     </data>
 </odoo>
