@@ -87,3 +87,10 @@
     top: 1em;
     right: 1em;
 }
+
+.to-matches-button {
+    margin: 10px;
+    border-radius: 5px;
+    font-size: 20px;
+    font-weight: bold;
+}
