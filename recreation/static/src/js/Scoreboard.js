@@ -30,8 +30,8 @@ class Scoreboard extends Component {
         this.ormService = useService("orm");
         onWillStart(async () => {
             await this.fetchScoreboardElements()
-            const { team_ids, teams, location, startTime } = await this.load();
-            this.team_ids = team_ids;
+            const { results, teams, location, startTime } = await this.load();
+            this.results = results;
             this.teams = teams;
             this.location = location;
             this.startTime = startTime;
@@ -40,11 +40,13 @@ class Scoreboard extends Component {
 
     async load() {
         const data = this.props.match
-        const team_ids = data.team_ids
-        const teams = await (await Promise.all(team_ids.map(id => this.ormService.searchRead('recreation.team', [['id', '=', id]], [])))).map(ele => ele[0]);
+        const results = await (await Promise.all(data.result_ids.map(id => this.ormService.searchRead('recreation.result', [['id', '=', id]], [])))).map(ele => ele[0]);
+        const teams = await (await Promise.all(results.map(result => this.ormService.searchRead('recreation.team', [['id', '=', result.team_id[0]]], [])))).map(ele => ele[0]);
         const location = data.location_id[1];
         const startTime = data.start_time;
-        return { team_ids, teams, location, startTime };
+        console.log(results);
+        console.log(teams);
+        return { results, teams, location, startTime };
     }
 
     async fetchScoreboardElements() {
@@ -72,11 +74,11 @@ class Scoreboard extends Component {
             element.position_h = record.position_h;
 
             if (element.type == 'ranking') {
-                let teams = []
-                for (let i = 0; i < this.teams.length; i++){
+                let teams = [];
+                for (let i = 0; i < this.results.length; i++){
                     teams.push({
-                        id: this.team_ids[i],
-                        teamName: this.teams[i].name,
+                        id: this.results[i].team_id[0],
+                        teamName: this.results[i].team_id[1],
                         wins: this.teams[i].wins,
                         losses: this.teams[i].losses,
                         ties: this.teams[i].ties
@@ -86,16 +88,12 @@ class Scoreboard extends Component {
                 element.teams = teams.map((ele, idx) => {return {...ele, rank: idx + 1}})
             }
             else if (element.type == 'score') {
-                element.scores = [
-                    {
-                        teamName: this.teams[0].name,
-                        points: 5
-                    },
-                    {
-                        teamName: this.teams[1].name,
-                        points: 6
-                    }
-                ];
+                for (let result of this.results){
+                    element.scores.push({
+                        teamName: result.team_id[1],
+                        points: result.score
+                    })
+                }
             }
             else if (element.type == 'upcoming') {
                 element.teams = [
