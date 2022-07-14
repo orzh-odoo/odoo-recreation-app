@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from itertools import combinations
 from odoo import models, fields, api
 from datetime import timedelta
 
