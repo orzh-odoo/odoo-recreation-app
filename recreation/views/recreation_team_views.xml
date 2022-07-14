@@ -10,6 +10,7 @@
                     <sheet>
                         <h1><field name="name" /></h1>
                         <group>
+                            <field name="size" />
                             <field name="wins" />
                             <field name="losses" />
                             <field name="ties" />

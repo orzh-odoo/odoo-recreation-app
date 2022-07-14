@@ -10,6 +10,7 @@ class RecreationTeam(models.Model):
     name = fields.Char(string='Team Name')
     activity_ids = fields.Many2many(comodel_name='recreation.activity', string='Activities')
     team_member_ids = fields.Many2many(comodel_name='res.partner', string='Team Members')
+    size = fields.Integer(compute='_compute_size')
     match_ids = fields.Many2many(comodel_name='recreation.match', string='Matches')
     rating = fields.Float(string='Rating')
     wins = fields.Integer(compute='_compute_results')
@@ -31,3 +32,8 @@ class RecreationTeam(models.Model):
             team.wins = wins
             team.losses = losses
             team.ties = ties
+
+    @api.depends('team_member_ids')
+    def _compute_size(self):
+        for team in self:
+            team.size = len(team.team_member_ids)
