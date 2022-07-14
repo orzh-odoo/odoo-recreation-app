@@ -4,7 +4,6 @@
         <record model="recreation.match" id="match_1">
             <field name="name">Epic vs Cool Ping Pong</field>
             <field name="activity_id" ref="recreation.ping_pong"/>
-            <field name="team_ids" eval="[(6,0,[ref('recreation.epic_team'),ref('recreation.cool_team')])]"></field>
             <field name="result_ids" eval="[(6,0,[ref('recreation.result_1'),ref('recreation.result_2')])]"/>
             <field name="location_id" ref="recreation.floor_26_breakroom"/>
             <field name="start_time">2022-07-05 10:55:00</field>
@@ -13,7 +12,6 @@
         <record model="recreation.match" id="match_2">
             <field name="name">Awesome vs Fantastic Basketball</field>
             <field name="activity_id" ref="recreation.basketball"/>
-            <field name="team_ids" eval="[(6,0,[ref('recreation.awesome_team'),ref('recreation.fantastic_team')])]"></field>
             <field name="result_ids" eval="[(6,0,[ref('recreation.result_3'),ref('recreation.result_4')])]"/>
             <field name="location_id" ref="recreation.lobby"/>
             <field name="start_time">2022-07-06 12:30:00</field>
@@ -22,7 +20,6 @@
         <record model="recreation.match" id="match_3">
             <field name="name">Super vs Nice Darts</field>
             <field name="activity_id" ref="recreation.darts"/>
-            <field name="team_ids" eval="[(6,0,[ref('recreation.super_team'),ref('recreation.nice_team')])]"></field>
             <field name="result_ids" eval="[(6,0,[ref('recreation.result_5'),ref('recreation.result_6')])]"/>
             <field name="location_id" ref="recreation.floor_25_breakroom"/>
             <field name="start_time">2022-07-07 13:25:00</field>
@@ -31,7 +28,6 @@
         <record model="recreation.match" id="match_4">
             <field name="name">Epic vs Spicy Ping Pong</field>
             <field name="activity_id" ref="recreation.ping_pong"/>
-            <field name="team_ids" eval="[(6,0,[ref('recreation.epic_team'),ref('recreation.spicy_team')])]"></field>
             <field name="result_ids" eval="[(6,0,[ref('recreation.result_7'),ref('recreation.result_8')])]"/>
             <field name="location_id" ref="recreation.floor_26_breakroom"/>
             <field name="start_time">2022-07-05 10:55:00</field>
@@ -40,7 +36,6 @@
         <record model="recreation.match" id="match_5">
             <field name="name">Awesome vs Great Basketball</field>
             <field name="activity_id" ref="recreation.basketball"/>
-            <field name="team_ids" eval="[(6,0,[ref('recreation.awesome_team'),ref('recreation.great_team')])]"></field>
             <field name="result_ids" eval="[(6,0,[ref('recreation.result_9'),ref('recreation.result_10')])]"/>
             <field name="location_id" ref="recreation.lobby"/>
             <field name="start_time">2022-07-06 12:30:00</field>
@@ -49,7 +44,6 @@
         <record model="recreation.match" id="match_6">
             <field name="name">Nice vs Nasty Darts</field>
             <field name="activity_id" ref="recreation.darts"/>
-            <field name="team_ids" eval="[(6,0,[ref('recreation.nice_team'),ref('recreation.nasty_team')])]"></field>
             <field name="result_ids" eval="[(6,0,[ref('recreation.result_11'),ref('recreation.result_12')])]"/>
             <field name="location_id" ref="recreation.floor_25_breakroom"/>
             <field name="start_time">2022-07-07 13:25:00</field>

@@ -20,7 +20,6 @@
                             <group>
                                 <field name="activity_id"/>
                                 <field name="location_id"/>
-                                <field name="team_ids"/>
                                 <field name="result_ids"/>
                                 <field name="winner"/>
                             </group>
@@ -63,7 +62,6 @@
                     <field name="name"/>
                     <field name="activity_id"/>
                     <field name="location_id"/>
-                    <field name="team_ids"/>
                     <field name="start_time"/>
                 </search>
             </field>
