@@ -6,6 +6,7 @@ from odoo import models, fields
 class RecreationScoreboardElement(models.Model):
     _name = 'recreation.scoreboard.element'
 
+    activity_id = fields.Many2one(comodel_name='recreation.activity', string='Activity')
     position_h = fields.Float(string='Horizontal Position')
     position_v = fields.Float(string='Vertical Position')
     height = fields.Float(string='Height')

@@ -49,7 +49,7 @@ class Scoreboard extends Component {
     }
 
     async fetchScoreboardElements() {
-        const scoreboardElements = await this.ormService.searchRead('recreation.scoreboard.element', [], []);
+        const scoreboardElements = await this.ormService.searchRead('recreation.scoreboard.element', [['activity_id', '=', this.props.match.activity_id[0]]], []);
         this.scoreboardElements = scoreboardElements;
     }
 
@@ -133,7 +133,8 @@ class Scoreboard extends Component {
     }
     async _create(elementType) {
         const newElemId = await this.ormService.create('recreation.scoreboard.element', {
-            'element_type': elementType
+            'element_type': elementType,
+            'activity_id': this.props.match.activity_id[0]
         });
         const newElem = (await this.ormService.read('recreation.scoreboard.element', [newElemId], []))[0];
         this.scoreboardElements.push(newElem);
