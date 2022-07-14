@@ -6,6 +6,10 @@
             <field name="model">recreation.match</field>
             <field name="arch" type="xml">
                 <form string="Match Form">
+                    <header>
+                        <button name="start_game" type="object" string="Start Game"/>
+                        <button name="end_game" type="object" string="End Game"/>
+                    </header>
                     <sheet>
                         <h1>
                             <group>

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from itertools import combinations
 from odoo import models, fields, api
 from datetime import timedelta
 
@@ -72,3 +73,15 @@ class RecreationMatch(models.Model):
 
     def _inverse_activity_time(self):
         return
+
+    def end_game(self):
+        if self.status != 'done':
+            self.status = 'done'
+            for combination in combinations(self.result_ids, 2):
+                expected = 1 / (1 + (10 ** (combination[1].team_id.rating - combination[0].team_id.rating)))
+                pass
+
+    def start_game(self):
+        self.status = 'in_progress'
+
+
