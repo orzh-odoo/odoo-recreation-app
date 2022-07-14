@@ -10,7 +10,6 @@ class RecreationMatch(models.Model):
 
     name = fields.Char(string="Name")
     activity_id = fields.Many2one(comodel_name='recreation.activity', string='Activity')
-    team_ids = fields.Many2many(comodel_name='recreation.team', string='Teams')
     start_time = fields.Datetime(string='Start Time')
     end_time = fields.Datetime(string='End Time', compute='_compute_end_time', inverse='_inverse_end_time', store=True)
     activity_time = fields.Integer(string='Activity Time', compute='_compute_activity_time', inverse='_inverse_activity_time', store=True)
@@ -28,12 +27,12 @@ class RecreationMatch(models.Model):
     )
     team_names = fields.Char(compute='_compute_team_names')
 
-    @api.depends('team_ids')
+    @api.depends('result_ids')
     def _compute_team_names(self):
         for match in self:
             names = []
-            for team in match.team_ids:
-                names.append(team.name)
+            for result in match.result_ids:
+                names.append(result.team_id.name)
             match.team_names = ', '.join(names)
 
     @api.depends('start_time', 'activity_time')
