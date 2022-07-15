@@ -13,7 +13,7 @@ class RecreationMatch(models.Model):
     start_time = fields.Datetime(string='Start Time')
     end_time = fields.Datetime(string='End Time', compute='_compute_end_time', inverse='_inverse_end_time', store=True)
     activity_time = fields.Integer(string='Activity Time', compute='_compute_activity_time', inverse='_inverse_activity_time', store=True)
-    result_ids = fields.One2many(comodel_name='recreation.result', inverse_name='match_id', string='Results')
+    result_ids = fields.One2many(comodel_name='recreation.result', inverse_name='match_id', string='Results', readonly=True)
     location_id = fields.Many2one(comodel_name='recreation.location', string='Location')
     attending_members = fields.Many2many(comodel_name='res.partner', string='Attending Members')
     winner = fields.Many2one(comodel_name='recreation.team', string='Winner', compute='_compute_winner')

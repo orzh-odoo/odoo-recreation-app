@@ -24,7 +24,8 @@
         'views/recreation_location_views.xml',
         'views/recreation_activity_views.xml',
         'views/recreation_team_views.xml',
-        'views/recreation_result_views.xml'
+        'views/recreation_result_views.xml',
+        'wizard/team_wizard_views.xml'
     ],
     'assets': {
         'web.assets_backend': [
