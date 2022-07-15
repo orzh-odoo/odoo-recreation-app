@@ -23,7 +23,8 @@ class RecreationMatch(models.Model):
             ('draft', 'Draft'),
             ('in_progress', 'In-Progress'),
             ('done', 'Done')
-        ]
+        ],
+        default='draft'
     )
     team_names = fields.Char(compute='_compute_team_names')
 
@@ -77,12 +78,14 @@ class RecreationMatch(models.Model):
         if self.status != 'in_progress':
             return
 
+        self.end_time = fields.Datetime.now()
         self.status = 'done'
 
     def start_game(self):
         if self.status != 'draft':
             return
 
+        self.start_time = fields.Datetime.now()
         self.status = 'in_progress'
 
         action = self.env.ref('recreation.recreation_action_scoreboard').read()[0] 
