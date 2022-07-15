@@ -29,7 +29,46 @@ class Scoreboard extends Component {
     async setup() {
         this.ormService = useService("orm");
         onWillStart(async () => {
-            const { match, results, teams, location, startTime } = await this.load();
+            let match, results, teams, location, startTime;
+            if (!this.state.isEditMode) {
+                ({ match, results, teams, location, startTime } = await this.load());
+            }
+            else {
+                match = {
+                    id: 1,
+                    activity_id: [this.props.action.context.activity_id]
+                }
+                results = [
+                    {
+                        id: 1,
+                        team_id: [1, "Team Name"],
+                        score: 100
+                    },
+                    {
+                        id: 2,
+                        team_id: [2, "Team Name"],
+                        score: 100
+                    }
+                ]
+                teams = [
+                    {
+                        id: 1,
+                        name: 'Team Name',
+                        wins: 0,
+                        losses: 0,
+                        ties: 0
+                    },
+                    {
+                        id: 2,
+                        name: 'Team Name',
+                        wins: 0,
+                        losses: 0,
+                        ties: 0
+                    }
+                ]
+                location = 'Location of Activity';
+                startTime = '4:00 PM';
+            }
             this.match = match;
             this.results = results;
             this.teams = teams;
@@ -41,8 +80,8 @@ class Scoreboard extends Component {
 
     async load() {
         const match = (await this.ormService.read('recreation.match', [this.props.action.context.match], []))[0];
-        const results = await (await Promise.all(match.result_ids.map(id => this.ormService.searchRead('recreation.result', [['id', '=', id]], [])))).map(ele => ele[0]);
-        const teams = await (await Promise.all(results.map(result => this.ormService.searchRead('recreation.team', [['id', '=', result.team_id[0]]], [])))).map(ele => ele[0]);
+        const results = await this.ormService.read('recreation.result', match.result_ids, []);
+        const teams = await this.ormService.read('recreation.team', results.map(r => r.team_id[0]), []);
         const location = match.location_id[1];
         const startTime = match.start_time;
         return { match, results, teams, location, startTime };

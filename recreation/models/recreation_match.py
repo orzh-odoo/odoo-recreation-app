@@ -74,6 +74,11 @@ class RecreationMatch(models.Model):
     def _inverse_activity_time(self):
         return
 
+    def open_scoreboard(self):
+        action = self.env.ref('recreation.recreation_action_scoreboard').read()[0] 
+        action['context'] = {'match':self.id}
+        return action
+
     def end_game(self):
         if self.status != 'in_progress':
             return
@@ -88,8 +93,6 @@ class RecreationMatch(models.Model):
         self.start_time = fields.Datetime.now()
         self.status = 'in_progress'
 
-        action = self.env.ref('recreation.recreation_action_scoreboard').read()[0] 
-        action['context'] = {'match':self.id}
-        return action
+        return self.open_scoreboard()
 
 
