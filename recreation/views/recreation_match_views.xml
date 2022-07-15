@@ -9,6 +9,7 @@
                     <header>
                         <button name="start_game" type="object" string="Start Game"/>
                         <button name="end_game" type="object" string="End Game"/>
+                        <field name="status" widget="statusbar" statusbar_visible="draft,in_progress,done"/>
                     </header>
                     <sheet>
                         <h1>

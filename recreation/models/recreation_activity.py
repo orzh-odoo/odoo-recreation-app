@@ -24,12 +24,9 @@ class RecreationActivity(models.Model):
 
     def new_match(self):
         new_match = self.env['recreation.match'].create({'activity_id': self.id})
-        action = self.env.ref('recreation.recreation_action_scoreboard').read()[0] 
-        action['context'] = {'match':new_match}
-        return action
+        return new_match.start_game()
 
-    def add_rank_column(self):
-        self.env.cr.execute("""
-            ALTER TABLE recreation_activity_recreation_team_rel
-            ADD rank INT;
-        """)
+    def edit_scoreboard(self):
+        action = self.env.ref('recreation.recreation_action_scoreboard').read()[0] 
+        action['context'] = { 'edit': True, 'activity_id': self.id, 'match': self.match_ids[0].id }
+        return action

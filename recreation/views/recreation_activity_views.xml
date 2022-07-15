@@ -29,6 +29,9 @@
             <field name="model">recreation.activity</field>
             <field name="arch" type="xml">
                 <form string="Activity">
+                    <header>
+                        <button name="edit_scoreboard" type="object" class="btn btn-primary" string="Edit Scoreboard"/>
+                    </header>
                     <sheet>
                         <h1><field name="name" /></h1>
                         <group>

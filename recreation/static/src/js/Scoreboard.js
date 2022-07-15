@@ -19,10 +19,9 @@ class Scoreboard extends Component {
         useListener('save-element', this._onSaveElement);
         useListener('create-element', this._onCreateElement);
         useListener('remove-element', this._onRemoveElement);
-        useListener('toggle-edit', this._onToggleEdit);
         this.state = useState({
             selectedElementId: null,
-            isEditMode: false,
+            isEditMode: !!this.props.action.context.edit,
         });
         this.scoreboardElements = [];
     }
@@ -30,26 +29,27 @@ class Scoreboard extends Component {
     async setup() {
         this.ormService = useService("orm");
         onWillStart(async () => {
-            await this.fetchScoreboardElements()
-            const { results, teams, location, startTime } = await this.load();
+            const { match, results, teams, location, startTime } = await this.load();
+            this.match = match;
             this.results = results;
             this.teams = teams;
             this.location = location;
             this.startTime = startTime;
+            await this.fetchScoreboardElements()
         });
     }
 
     async load() {
-        const data = this.props.match
-        const results = await (await Promise.all(data.result_ids.map(id => this.ormService.searchRead('recreation.result', [['id', '=', id]], [])))).map(ele => ele[0]);
+        const match = (await this.ormService.read('recreation.match', [this.props.action.context.match], []))[0];
+        const results = await (await Promise.all(match.result_ids.map(id => this.ormService.searchRead('recreation.result', [['id', '=', id]], [])))).map(ele => ele[0]);
         const teams = await (await Promise.all(results.map(result => this.ormService.searchRead('recreation.team', [['id', '=', result.team_id[0]]], [])))).map(ele => ele[0]);
-        const location = data.location_id[1];
-        const startTime = data.start_time;
-        return { results, teams, location, startTime };
+        const location = match.location_id[1];
+        const startTime = match.start_time;
+        return { match, results, teams, location, startTime };
     }
 
     async fetchScoreboardElements() {
-        const scoreboardElements = await this.ormService.searchRead('recreation.scoreboard.element', [['activity_id', '=', this.props.match.activity_id[0]]], []);
+        const scoreboardElements = await this.ormService.searchRead('recreation.scoreboard.element', [['activity_id', '=', this.match.activity_id[0]]], []);
         this.scoreboardElements = scoreboardElements;
     }
 
@@ -127,14 +127,10 @@ class Scoreboard extends Component {
     _onDeselectElement() {
         this.state.selectedElementId = null;
     }
-    _onToggleEdit() {
-        this.state.isEditMode = !this.state.isEditMode;
-        this.state.selectedElementId = null;
-    }
     async _create(elementType) {
         const newElemId = await this.ormService.create('recreation.scoreboard.element', {
             'element_type': elementType,
-            'activity_id': this.props.match.activity_id[0]
+            'activity_id': this.match.activity_id[0]
         });
         const newElem = (await this.ormService.read('recreation.scoreboard.element', [newElemId], []))[0];
         this.scoreboardElements.push(newElem);
@@ -179,5 +175,7 @@ Scoreboard.components = {
     Score,
     Upcoming
 };
+
+core.action_registry.add('recreation_app', Scoreboard);
 
 export default Scoreboard;
