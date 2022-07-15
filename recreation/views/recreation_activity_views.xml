@@ -52,6 +52,13 @@
                             <page name="locations" string="Locations">
                                 <field name="location_ids" />
                             </page>
+                            <page name="configuration" string="Configuration">
+                                <group>
+                                    <field name="min_team_size" />
+                                    <field name="max_team_size" />
+                                    <field name="custom_input" />
+                                </group>
+                            </page>
                         </notebook>
                     </sheet>
                 </form>
