@@ -74,13 +74,19 @@ class RecreationMatch(models.Model):
         return
 
     def end_game(self):
-        if self.status != 'done':
-            self.status = 'done'
-            for combination in combinations(self.result_ids, 2):
-                expected = 1 / (1 + (10 ** (combination[1].team_id.rating - combination[0].team_id.rating)))
-                pass
+        if self.status != 'in_progress':
+            return
+
+        self.status = 'done'
 
     def start_game(self):
+        if self.status != 'draft':
+            return
+
         self.status = 'in_progress'
+
+        action = self.env.ref('recreation.recreation_action_scoreboard').read()[0] 
+        action['context'] = {'match':self.id}
+        return action
 
 
