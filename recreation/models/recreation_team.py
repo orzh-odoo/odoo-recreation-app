@@ -8,7 +8,7 @@ class RecreationTeam(models.Model):
     _description = 'Team for Recreation App'
 
     name = fields.Char(string='Team Name')
-    activity_ids = fields.Many2many(comodel_name='recreation.activity', string='Activities')
+    activity_ids = fields.Many2many(comodel_name='recreation.activity', relation='recreation_activity_team_join', column1='team_id', column2='activity_id', string='Activities')
     team_member_ids = fields.Many2many(comodel_name='res.partner', string='Team Members')
     size = fields.Integer(compute='_compute_size')
     match_ids = fields.Many2many(comodel_name='recreation.match', string='Matches')
