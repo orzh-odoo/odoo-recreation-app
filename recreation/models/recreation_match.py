@@ -13,7 +13,7 @@ class RecreationMatch(models.Model):
     start_time = fields.Datetime(string='Start Time')
     end_time = fields.Datetime(string='End Time', compute='_compute_end_time', inverse='_inverse_end_time', store=True)
     activity_time = fields.Integer(string='Activity Time', compute='_compute_activity_time', inverse='_inverse_activity_time', store=True)
-    result_ids = fields.One2many(comodel_name='recreation.result', inverse_name='match_id', string='Results')
+    result_ids = fields.One2many(comodel_name='recreation.result', inverse_name='match_id', string='Results', readonly=True)
     location_id = fields.Many2one(comodel_name='recreation.location', string='Location')
     attending_members = fields.Many2many(comodel_name='res.partner', string='Attending Members')
     winner = fields.Many2one(comodel_name='recreation.team', string='Winner', compute='_compute_winner')
@@ -57,11 +57,11 @@ class RecreationMatch(models.Model):
                 match.winner = False
                 continue
 
-            max_score = 0
+            best_score = None
             team_id = None
             for team in match.result_ids:
-                if team.score > max_score:
-                    max_score = team.score
+                if best_score is None or (match.activity_id.win_condition == 'highest' and team.score > best_score) or (match.activity_id.win_condition == 'lowest' and team.score < best_score):
+                    best_score = team.score
                     team_id = team.team_id
             match.winner = team_id
 

@@ -16,6 +16,14 @@ class RecreationActivity(models.Model):
     match_ids = fields.One2many(comodel_name='recreation.match', inverse_name='activity_id', string='Matches')
     location_ids = fields.Many2many(comodel_name='recreation.location', string='Locations')
     average_game_time = fields.Integer(string='Average Game Time in Minutes')
+    win_condition = fields.Selection(
+        selection=[
+            ('lowest', 'Lowest Score Wins'),
+            ('highest', 'Highest Score Wins')
+        ],
+        string='Win Condition',
+        default='highest'
+    )
 
     #configuration fields
     min_team_size = fields.Integer(string="Min Team Size")
@@ -24,9 +32,13 @@ class RecreationActivity(models.Model):
 
     def new_match(self):
         new_match = self.env['recreation.match'].create({'activity_id': self.id})
-        return new_match.start_game()
+        
+        action = self.env.ref('recreation.launch_team_wizard').read()[0] 
+        action['context'] = { 'start': True, 'match_id': new_match.id }
+        return action
+
 
     def edit_scoreboard(self):
         action = self.env.ref('recreation.recreation_action_scoreboard').read()[0] 
-        action['context'] = { 'edit': True, 'activity_id': self.id, 'match': self.match_ids[0].id }
+        action['context'] = { 'edit': True, 'activity_id': self.id }
         return action

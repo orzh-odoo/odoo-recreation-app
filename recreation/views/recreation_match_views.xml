@@ -7,9 +7,9 @@
             <field name="arch" type="xml">
                 <form string="Match Form">
                     <header>
-                        <button name="start_game" type="object" string="Start Game"/>
-                        <button name="open_scoreboard" type="object" string="Open Scoreboard"/>
-                        <button name="end_game" type="object" string="End Game"/>
+                        <button name="start_game" class="btn btn-primary" type="object" string="Start Game" attrs="{'invisible':[('status', '!=', 'draft')]}"/>
+                        <button name="end_game" class="btn btn-primary" type="object" string="End Game" attrs="{'invisible':[('status', '!=', 'in_progress')]}"/>
+                        <button name="open_scoreboard" type="object" string="Open Scoreboard" attrs="{'invisible':[('status', '!=', 'in_progress')]}"/>
                         <field name="status" widget="statusbar" statusbar_visible="draft,in_progress,done"/>
                     </header>
                     <sheet>
