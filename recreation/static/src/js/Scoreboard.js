@@ -82,14 +82,21 @@ class Scoreboard extends Component {
     }
 
     async load() {
+        console.log(this.props.action.context)
         const match = (await this.ormService.read('recreation.match', [this.props.action.context.match], []))[0];
         const results = await this.ormService.read('recreation.result', match.result_ids, []);
         const teams = await this.ormService.read('recreation.team', results.map(r => r.team_id[0]), []);
         const location = match.location_id[1];
         const startTime = match.start_time;
-        const nextMatch = (await this.ormService.read('recreation.match', [this.props.action.context.next_match], []))[0];
-        const nextResults = await this.ormService.read('recreation.result', nextMatch.result_ids, []);
-        const nextStartTime = nextMatch.start_time;
+        let nextMatch, nextResults, nextStartTime;
+        if (this.props.action.context.next_match){
+            nextMatch = (await this.ormService.read('recreation.match', [this.props.action.context.next_match], []))[0];
+            nextResults = await this.ormService.read('recreation.result', nextMatch.result_ids, []);
+            nextStartTime = nextMatch.start_time;
+        }
+        else{
+            nextMatch, nextResults, nextStartTime = false;
+        }
         return { match, results, teams, location, startTime, nextMatch, nextResults, nextStartTime };
     }
 
@@ -142,9 +149,17 @@ class Scoreboard extends Component {
                 }
             }
             else if (element.type == 'upcoming') {
-                element.upcoming = {
-                    teams: this.nextResults.map(team => team.team_id[1]),
-                    startTime: this.nextStartTime
+                if (this.nextMatch){
+                    element.upcoming = {
+                        teams: this.nextResults.map(team => team.team_id[1]),
+                        startTime: this.nextStartTime,
+                        nextMatch: true
+                    }
+                }
+                else{
+                    element.upcoming = {
+                        nextMatch: false
+                    }
                 }
             }
 
