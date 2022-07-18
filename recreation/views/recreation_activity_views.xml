@@ -57,6 +57,7 @@
                                     <field name="min_team_size" />
                                     <field name="max_team_size" />
                                     <field name="custom_input" />
+                                    <field name="win_condition" />
                                 </group>
                             </page>
                         </notebook>

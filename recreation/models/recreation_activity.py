@@ -16,6 +16,14 @@ class RecreationActivity(models.Model):
     match_ids = fields.One2many(comodel_name='recreation.match', inverse_name='activity_id', string='Matches')
     location_ids = fields.Many2many(comodel_name='recreation.location', string='Locations')
     average_game_time = fields.Integer(string='Average Game Time in Minutes')
+    win_condition = fields.Selection(
+        selection=[
+            ('lowest', 'Lowest Score Wins'),
+            ('highest', 'Highest Score Wins')
+        ],
+        string='Win Condition',
+        default='highest'
+    )
 
     #configuration fields
     min_team_size = fields.Integer(string="Min Team Size")

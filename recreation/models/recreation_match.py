@@ -57,11 +57,11 @@ class RecreationMatch(models.Model):
                 match.winner = False
                 continue
 
-            max_score = 0
+            best_score = None
             team_id = None
             for team in match.result_ids:
-                if team.score > max_score:
-                    max_score = team.score
+                if best_score is None or (match.activity_id.win_condition == 'highest' and team.score > best_score) or (match.activity_id.win_condition == 'lowest' and team.score < best_score):
+                    best_score = team.score
                     team_id = team.team_id
             match.winner = team_id
 
