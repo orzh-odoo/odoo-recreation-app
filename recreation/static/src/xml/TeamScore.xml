@@ -6,13 +6,19 @@
             <div class="score-team-name">
                 <t t-esc="props.score.teamName"/>
             </div>
-            <div class="score-score">
-                <t t-esc="props.score.points"/>
-            </div>
-            <div class="score-controls btn-group btn-group-lg">
-                <button type="button" class="score-button btn btn-danger" t-on-click.stop="trigger('decrement-score')">-</button>
-                <input t-if="props.customIncrement" class="form-control score-increment form-control-lg" type="text" t-model.number="state.scoreIncrement"/>
-                <button type="button" class="score-button btn btn-success" t-on-click.stop="trigger('increment-score')">+</button>
+            <div class="score-content d-flex flex-row">
+                <div class="score-controls d-flex flex-column justify-content-center test-flex">
+                    <button type="button" class="score-button btn btn-success" t-on-click.stop="trigger('increment-score')">
+                        +
+                    </button>
+                    <input t-if="props.customIncrement" class="form-control score-increment form-control-lg" type="text" t-model.number="state.scoreIncrement"/>
+                    <button type="button" class="score-button btn btn-danger" t-on-click.stop="trigger('decrement-score')">
+                        -
+                    </button>
+                </div>
+                <div class="score-score test-flex"> 
+                    <t t-esc="props.score.points"/>  
+                </div>
             </div>
         </div>
     </t>
