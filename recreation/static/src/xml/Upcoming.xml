@@ -6,23 +6,18 @@
             <Resizeable limitArea="'.scoreboard'">
                 <div class="scoreboard-element">
                     <div class="upcoming-element" t-on-click.stop="trigger('select-element', props.element)">
+                        <h3>Next Match</h3>
                         <table>
-                            <thead>
-                                <tr>
-                                    <th>Team</th>
-                                    <th>Location</th>
-                                    <th>Time</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <t t-foreach="props.element.teams" t-as="team" t-key="team.id">
-                                    <tr>
-                                        <td><t t-esc="team.teamName"/></td>
-                                        <td><t t-esc="team.location"/></td>
-                                        <td><t t-esc="team.startTime"/></td>
-                                    </tr>
+                            <tr>
+                                <th>Teams</th>
+                                <t t-foreach="props.element.upcoming.teams" t-as="team" t-key="team.id">
+                                    <td><t t-esc="team"/></td>
                                 </t>
-                            </tbody>
+                            </tr>
+                            <tr>
+                                <th>Start Time</th>
+                                <td><t t-esc="props.element.upcoming.startTime"/></td>
+                            </tr>
                         </table>
                     </div>
                     <t t-if="props.element.edit">

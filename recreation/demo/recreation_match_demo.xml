@@ -30,7 +30,7 @@
             <field name="activity_id" ref="recreation.ping_pong"/>
             <field name="result_ids" eval="[(6,0,[ref('recreation.result_7'),ref('recreation.result_8')])]"/>
             <field name="location_id" ref="recreation.floor_26_breakroom"/>
-            <field name="start_time">2022-07-05 10:55:00</field>
+            <field name="start_time">2022-07-06 10:55:00</field>
             <field name="status">done</field>
         </record>
         <record model="recreation.match" id="match_5">
@@ -38,7 +38,7 @@
             <field name="activity_id" ref="recreation.basketball"/>
             <field name="result_ids" eval="[(6,0,[ref('recreation.result_9'),ref('recreation.result_10')])]"/>
             <field name="location_id" ref="recreation.lobby"/>
-            <field name="start_time">2022-07-06 12:30:00</field>
+            <field name="start_time">2022-07-07 12:30:00</field>
             <field name="status">done</field>
         </record>
         <record model="recreation.match" id="match_6">
@@ -46,7 +46,7 @@
             <field name="activity_id" ref="recreation.darts"/>
             <field name="result_ids" eval="[(6,0,[ref('recreation.result_11'),ref('recreation.result_12')])]"/>
             <field name="location_id" ref="recreation.floor_25_breakroom"/>
-            <field name="start_time">2022-07-07 13:25:00</field>
+            <field name="start_time">2022-07-08 13:25:00</field>
             <field name="status">done</field>
         </record>
     </data>

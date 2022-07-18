@@ -29,9 +29,9 @@ class Scoreboard extends Component {
     async setup() {
         this.ormService = useService("orm");
         onWillStart(async () => {
-            let match, results, teams, location, startTime;
+            let match, results, teams, location, startTime, nextMatch, nextResults, nextStartTime;
             if (!this.state.isEditMode) {
-                ({ match, results, teams, location, startTime } = await this.load());
+                ({ match, results, teams, location, startTime, nextMatch, nextResults, nextStartTime } = await this.load());
             }
             else {
                 match = {
@@ -74,6 +74,9 @@ class Scoreboard extends Component {
             this.teams = teams;
             this.location = location;
             this.startTime = startTime;
+            this.nextMatch = nextMatch;
+            this.nextResults = nextResults;
+            this.nextStartTime = nextStartTime;
             await this.fetchScoreboardElements()
         });
     }
@@ -84,7 +87,10 @@ class Scoreboard extends Component {
         const teams = await this.ormService.read('recreation.team', results.map(r => r.team_id[0]), []);
         const location = match.location_id[1];
         const startTime = match.start_time;
-        return { match, results, teams, location, startTime };
+        const nextMatch = (await this.ormService.read('recreation.match', [this.props.action.context.next_match], []))[0];
+        const nextResults = await this.ormService.read('recreation.result', nextMatch.result_ids, []);
+        const nextStartTime = nextMatch.start_time;
+        return { match, results, teams, location, startTime, nextMatch, nextResults, nextStartTime };
     }
 
     async fetchScoreboardElements() {
@@ -105,6 +111,7 @@ class Scoreboard extends Component {
             element.type = record.element_type;
             element.teams = [];
             element.scores = [];
+            element.upcoming = {};
 
             element.width = record.width;
             element.height = record.height;
@@ -135,20 +142,10 @@ class Scoreboard extends Component {
                 }
             }
             else if (element.type == 'upcoming') {
-                element.teams = [
-                    {
-                        id: 1,
-                        teamName: this.teams[0].name,
-                        location: this.location,
-                        startTime: this.startTime
-                    },
-                    {
-                        id: 2,
-                        teamName: this.teams[1].name,
-                        location: this.location,
-                        startTime: this.startTime
-                    }
-                ];
+                element.upcoming = {
+                    teams: this.nextResults.map(team => team.team_id[1]),
+                    startTime: this.nextStartTime
+                }
             }
 
             element.edit = element.id === this.state.selectedElementId;

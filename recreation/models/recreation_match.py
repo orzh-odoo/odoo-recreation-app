@@ -76,7 +76,8 @@ class RecreationMatch(models.Model):
 
     def open_scoreboard(self):
         action = self.env.ref('recreation.recreation_action_scoreboard').read()[0] 
-        action['context'] = {'match':self.id}
+        action['context'] = {'match':self.id, 'next_match':self.find_next_match().id}
+        print (type(self.find_next_match()))
         return action
 
     def end_game(self):
@@ -94,5 +95,12 @@ class RecreationMatch(models.Model):
         self.status = 'in_progress'
 
         return self.open_scoreboard()
+
+    def find_next_match(self):
+        next_match = False
+        future_matches = self.search([('start_time', '>', self.start_time), ('location_id.id', '=', self.location_id.id)])
+        if len(future_matches) > 0:
+            next_match = min(future_matches, key=lambda match: match.start_time)
+        return next_match
 
 
