@@ -6,19 +6,9 @@
             <Resizeable limitArea="'.scoreboard'">
                 <div class="scoreboard-element" t-on-click.stop="trigger('select-element', props.element)">
                     <div class="score-element">
-                        <div t-foreach="props.element.scores" t-as="score" class="team-score">
-                            <div class="score-team-name">
-                                <t t-esc="score.teamName"/>
-                            </div>
-                            <div class="score-score">
-                                <t t-esc="score.points"/>
-                            </div>
-                            <div class="score-controls btn-group">
-                                <button type="button" class="btn btn-danger" t-on-click.stop="trigger('decrement-score', score.id)">-</button>
-                                <!-- <input  class="form-control score-increment" type="text" value="1"/> -->
-                                <button type="button" class="btn btn-success" t-on-click.stop="trigger('increment-score', score.id)">+</button>
-                            </div>
-                        </div>
+                        <t t-foreach="props.element.scores" t-as="score" class="team-score">
+                            <TeamScore score="score" customIncrement="props.element.customIncrement"/>
+                        </t>
                     </div>
                     <t t-if="props.element.edit">
                         <div class="resize-handle top resize-handle-n"></div>
