@@ -31,6 +31,8 @@
 
 .score-score {
     font-size: 10em;
+    border-radius: 25px;
+    overflow: hidden;
 }
 
 .resize-handle {

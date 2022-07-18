@@ -10,9 +10,9 @@
                 <t t-esc="props.score.points"/>
             </div>
             <div class="score-controls btn-group">
-                <button type="button" class="btn btn-danger" t-on-click.stop="trigger('decrement-score')">-</button>
+                <button type="button" class="score-button btn btn-danger btn-lg" t-on-click.stop="trigger('decrement-score')">-</button>
                 <input t-if="props.customIncrement" class="form-control score-increment" type="text" t-model.number="state.scoreIncrement"/>
-                <button type="button" class="btn btn-success" t-on-click.stop="trigger('increment-score')">+</button>
+                <button type="button" class="score-button btn btn-success btn-lg" t-on-click.stop="trigger('increment-score')">+</button>
             </div>
         </div>
     </t>

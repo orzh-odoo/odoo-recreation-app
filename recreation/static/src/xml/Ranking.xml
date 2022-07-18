@@ -7,7 +7,7 @@
                 <div class="scoreboard-element">
                     <div class="ranking-element" t-on-click.stop="trigger('select-element', props.element)">
                         <div class="ranking">
-                            <table>
+                            <table class="table table-striped">
                                 <thead>
                                     <tr>
                                         <th>Rank</th>
