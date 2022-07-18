@@ -10,11 +10,15 @@
                             <div class="score-team-name">
                                 <t t-esc="score.teamName"/>
                             </div>
-                            <div class="score-score d-flex flex-column">
-                                <button type="button" class="score-button btn btn-success btn-lg" t-on-click.stop="trigger('increment-score', score.id)">+</button>
-                                <t t-esc="score.points"/>
-                                <button type="button" class="score-button btn btn-danger btn-lg" t-on-click.stop="trigger('decrement-score', score.id)">-</button>
-                                <!-- <input  class="form-control score-increment" type="text" value="1"/> -->
+                            <div class="score-content d-flex flex-row">
+                                <div class="score-controls d-flex flex-column justify-content-center test-flex">
+                                    <button type="button" class="score-button btn btn-success btn-lg" t-on-click.stop="trigger('increment-score', score.id)">+</button>
+                                    <!-- <input  class="form-control score-increment" type="text" value="1"/> -->
+                                    <button type="button" class="score-button btn btn-danger btn-lg" t-on-click.stop="trigger('decrement-score', score.id)">-</button>
+                                </div>
+                                <div class="score-score test-flex"> 
+                                    <t t-esc="score.points"/>  
+                                </div>
                             </div>
                         </div>
                     </div>
