@@ -82,13 +82,20 @@
     cursor: nesw-resize;
 }
 
-.scoreboard-edit-bar {
+.scoreboard-bar {
     display: flex;
     column-gap: 1em;
-    width: min-content;
     position: absolute;
     top: 1em;
+    left: 1em;
+    align-items: center;
+}
+
+.scoreboard-edit-bar {
+    top: 1em;
     right: 1em;
+    left: auto;
+    width: min-content;
 }
 
 .to-matches-button {

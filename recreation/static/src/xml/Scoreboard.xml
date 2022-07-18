@@ -19,7 +19,12 @@
                             <Upcoming t-if="scoreboardElement.type=='upcoming'" element="scoreboardElement"/>
                         </t>
                     </div>
-                    <div class="scoreboard-edit-bar" t-if="state.isEditMode">
+                    <div class="scoreboard-bar">
+                        <i class="fa fa-arrow-left fa-lg" role="img" aria-label="Back button" title="Back"></i>
+                        <button class="btn btn-primary">End Game</button>
+                        <button class="btn btn-secondary">Reorder Teams</button>
+                    </div>
+                    <div class="scoreboard-bar scoreboard-edit-bar" t-if="state.isEditMode">
                         <i class="fa fa-calculator fa-lg" role="img" aria-label="Add score button" title="Add score" t-on-click.stop="trigger('create-element', 'score')"></i>
                         <i class="fa fa-newspaper-o fa-lg" role="img" aria-label="Add ranking button" title="Add ranking" t-on-click.stop="trigger('create-element', 'ranking')"></i>
                         <i class="fa fa-calendar fa-lg" role="img" aria-label="Add upcoming button" title="Add upcoming" t-on-click.stop="trigger('create-element', 'upcoming')"></i>
