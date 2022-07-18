@@ -12,7 +12,10 @@ class RecreationTeamWizard(models.TransientModel):
 
     match_id = fields.Many2one(comodel_name='recreation.match', string='Match', default=_default_match)
 
-    team_ids = fields.Many2many(comodel_name='recreation.team', string='Teams')
+    def _get_domain(self):
+        return f"[('size', '<=', {self.match_id.activity_id.max_team_size}), ('size', '>=', {self.match_id.activity_id.min_team_size})]"
+
+    team_ids = fields.Many2many(comodel_name='recreation.team', string='Teams', domain=_get_domain)
 
     def save_teams(self):
         for team in self.team_ids:
