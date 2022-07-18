@@ -47,11 +47,6 @@
         <menuitem id="recreation_activity_menu" name="Activities" parent="recreation_sub_menu" sequence="3" action="activity_list_action"/>
         <menuitem id="recreation_team_menu" name="Teams" parent="recreation_sub_menu" sequence="4" action="team_list_action"/>
         <menuitem id="recreation_match_menu" name="Matches" parent="recreation_sub_menu" sequence="5" action="match_list_action"/>
-        <menuitem id="recreation_app_menu" name="Scoreboard" parent="recreation_sub_menu" sequence="6" action="recreation_action_scoreboard"/>
-
-
-
-
-
+        
     </data>
 </odoo>

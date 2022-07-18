@@ -21,7 +21,7 @@ class RecreationTeamWizard(models.TransientModel):
                 'team_id': team.id
             })
         if self.env.context['start']:
-            return self.match_id.open_scoreboard()
+            return self.match_id.start_game()
         
 
 
