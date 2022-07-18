@@ -29,9 +29,9 @@ class Scoreboard extends Component {
     async setup() {
         this.ormService = useService("orm");
         onWillStart(async () => {
-            let match, results, teams, location, startTime, nextMatch, nextResults, nextStartTime;
+            let match, results, teams, location, startTime, nextMatch, nextResults, nextStartTime, customIncrement;
             if (!this.state.isEditMode) {
-                ({ match, results, teams, location, startTime, nextMatch, nextResults, nextStartTime } = await this.load());
+                ({ match, results, teams, location, startTime, nextMatch, nextResults, nextStartTime, customIncrement } = await this.load());
             }
             else {
                 match = {
@@ -77,15 +77,16 @@ class Scoreboard extends Component {
             this.nextMatch = nextMatch;
             this.nextResults = nextResults;
             this.nextStartTime = nextStartTime;
+            this.customIncrement = customIncrement
             await this.fetchScoreboardElements()
         });
     }
 
     async load() {
-        console.log(this.props.action.context)
         const match = (await this.ormService.read('recreation.match', [this.props.action.context.match], []))[0];
         const results = await this.ormService.read('recreation.result', match.result_ids, []);
         const teams = await this.ormService.read('recreation.team', results.map(r => r.team_id[0]), []);
+        const customIncrement = (await this.ormService.read('recreation.activity', [match.activity_id[0]], ['custom_input']))[0].custom_input
         const location = match.location_id[1];
         const startTime = match.start_time;
         let nextMatch, nextResults, nextStartTime;
@@ -97,7 +98,7 @@ class Scoreboard extends Component {
         else{
             nextMatch, nextResults, nextStartTime = false;
         }
-        return { match, results, teams, location, startTime, nextMatch, nextResults, nextStartTime };
+        return { match, results, teams, location, startTime, nextMatch, nextResults, nextStartTime, customIncrement };
     }
 
     async fetchScoreboardElements() {
@@ -140,6 +141,7 @@ class Scoreboard extends Component {
                 element.teams = teams.map((ele, idx) => {return {...ele, rank: idx + 1}})
             }
             else if (element.type == 'score') {
+                element.customIncrement = this.customIncrement;
                 for (let result of this.results){
                     element.scores.push({
                         id: result.id,

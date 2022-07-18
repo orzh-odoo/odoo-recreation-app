@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template id="template" xml:space="preserve">
+
+    <t t-name="team-score" owl="1">
+        <div class="team-score">
+            <div class="score-team-name">
+                <t t-esc="props.score.teamName"/>
+            </div>
+            <div class="score-content d-flex flex-row">
+                <div class="score-controls d-flex flex-column justify-content-center test-flex">
+                    <button type="button" class="score-button btn btn-success" t-on-click.stop="trigger('increment-score')">
+                        +
+                    </button>
+                    <input t-if="props.customIncrement" class="form-control score-increment form-control-lg" type="text" t-model.number="state.scoreIncrement"/>
+                    <button type="button" class="score-button btn btn-danger" t-on-click.stop="trigger('decrement-score')">
+                        -
+                    </button>
+                </div>
+                <div class="score-score test-flex"> 
+                    <t t-esc="props.score.points"/>  
+                </div>
+            </div>
+        </div>
+    </t>
+
+</template>

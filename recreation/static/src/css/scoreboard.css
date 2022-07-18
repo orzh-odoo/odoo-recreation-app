@@ -2,10 +2,6 @@
     height: 100vh;
 }
 
-.score-button {
-    font-size: 0.25em;
-}
-
 .scoreboard-element {
     position: absolute;
     display: flex;
