@@ -119,7 +119,7 @@ class RecreationMatch(models.Model):
     @api.depends('activity_id', 'result_ids')
     def _default_name(self):
         names = []
-        for result in self.result_ids:
+        for result in self.team_ids:
             names.append(result.team_id.name)
         if self.activity_id.name:
             self.name = self.activity_id.name + ' / ' +' vs. '.join(names)
