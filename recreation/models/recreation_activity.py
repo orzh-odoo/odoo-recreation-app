@@ -8,7 +8,7 @@ class RecreationActivity(models.Model):
     _name = 'recreation.activity'
     _description = 'Recreation Activity'
 
-    name = fields.Char(string='Activity Name')
+    name = fields.Char(string='Activity Name', required=True)
     description = fields.Text(string='Activity Description')
     image = fields.Image(string='Image')
     rules = fields.Text(string='Rules')

@@ -8,8 +8,9 @@ class RecreationMatch(models.Model):
     _name = 'recreation.match'
     _description = 'Matches for Recreation App'
 
-    name = fields.Char(string="Name")
-    activity_id = fields.Many2one(comodel_name='recreation.activity', string='Activity')
+    
+    name = fields.Char(string='Name', compute='_default_name', store=True, readonly=False)
+    activity_id = fields.Many2one(comodel_name='recreation.activity', string='Activity', required=True)
     start_time = fields.Datetime(string='Start Time')
     end_time = fields.Datetime(string='End Time', compute='_compute_end_time', inverse='_inverse_end_time', store=True)
     activity_time = fields.Integer(string='Activity Time', compute='_compute_activity_time', inverse='_inverse_activity_time', store=True)
@@ -24,7 +25,8 @@ class RecreationMatch(models.Model):
             ('in_progress', 'In-Progress'),
             ('done', 'Done')
         ],
-        default='draft'
+        default='draft',
+        required=True
     )
     team_names = fields.Char(compute='_compute_team_names')
 
@@ -103,3 +105,9 @@ class RecreationMatch(models.Model):
         return next_match
 
 
+    @api.depends('activity_id', 'result_ids')
+    def _default_name(self):
+        names = []
+        for result in self.result_ids:
+            names.append(result.team_id.name)
+        self.name = self.activity_id.name + ' / ' +' vs. '.join(names)
