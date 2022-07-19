@@ -1,28 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <template id="template" xml:space="preserve">
-    
+
     <t t-name="scoreboard" owl="1">
         <div class="scoreboard-screen screen">
             <div class="screen-content-flexbox">
-                <div
-                    t-on-click="trigger('deselect-element')" 
-                    class="scoreboard"
-                    t-ref="scoreboard-ref"
-                >
+                <div t-on-click="trigger('deselect-element')" class="scoreboard" t-ref="scoreboard-ref">
+                    <Popup/>
                     <div t-if="isScoreboardEmpty" class="empty-scoreboard">
                         <span>This scoreboard has no elements yet, use the buttons in the editing toolbar to create new elements.</span>
                     </div>
                     <div t-else="" class="scoreboard-elements">
                         <t t-foreach="activeScoreboardElements" t-as="scoreboardElement" t-key="scoreboardElement.id">
-                            <Score t-if="scoreboardElement.type=='score'" element="scoreboardElement"/>
-                            <Ranking t-if="scoreboardElement.type=='ranking'" element="scoreboardElement"/>
-                            <Upcoming t-if="scoreboardElement.type=='upcoming'" element="scoreboardElement"/>
+                            <Score t-if="scoreboardElement.type=='score'" element="scoreboardElement" />
+                            <Ranking t-if="scoreboardElement.type=='ranking'" element="scoreboardElement" />
+                            <Upcoming t-if="scoreboardElement.type=='upcoming'" element="scoreboardElement" />
                         </t>
                     </div>
                     <div class="scoreboard-bar">
-                        <i class="fa fa-arrow-left fa-lg" role="img" aria-label="Back button" title="Back"></i>
+                        <button t-on-click="triggerBack">
+                            <i class="fa fa-arrow-left fa-lg" role="img" aria-label="Back button" title="Back"></i>
+                        </button>
                         <button class="btn btn-primary">End Game</button>
                         <button class="btn btn-secondary">Reorder Teams</button>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop">
+                            Trigger Popup
+                        </button>
                     </div>
                     <div class="scoreboard-bar scoreboard-edit-bar" t-if="state.isEditMode">
                         <i class="fa fa-calculator fa-lg" role="img" aria-label="Add score button" title="Add score" t-on-click.stop="trigger('create-element', 'score')"></i>

@@ -5,6 +5,10 @@ import { useService } from "@web/core/utils/hooks";
 import Score from './Score';
 import Ranking from './Ranking';
 import Upcoming from './Upcoming';
+import Popup from './Popup';
+
+var qweb = core.qweb;
+var _t = core._t
 
 const { Component } = owl;
 const { useListener } = require('web.custom_hooks');
@@ -171,6 +175,11 @@ class Scoreboard extends Component {
 
         return data;
     }
+
+    triggerBack = () => {
+        history.back();
+    }
+
     _onSelectElement(event) {
         const element = event.detail;
         if (this.state.isEditMode) {
@@ -226,7 +235,8 @@ Scoreboard.template = 'scoreboard';
 Scoreboard.components = {
     Ranking,
     Score,
-    Upcoming
+    Upcoming,
+    Popup
 };
 
 core.action_registry.add('recreation_app', Scoreboard);
