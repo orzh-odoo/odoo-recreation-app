@@ -21,8 +21,9 @@
                     </div>
                     <div class="scoreboard-bar">
                         <i class="fa fa-arrow-left fa-lg" role="img" aria-label="Back button" title="Back"></i>
-                        <button class="btn btn-primary">End Game</button>
+                        <button class="btn btn-primary" t-on-click.end="_exitScoreboard()">End Game</button>
                         <button class="btn btn-secondary">Reorder Teams</button>
+                        <button class="btn btn-secondary" t-on-click.end="_rematch()">Rematch</button>
                     </div>
                     <div class="scoreboard-bar scoreboard-edit-bar" t-if="state.isEditMode">
                         <i class="fa fa-calculator fa-lg" role="img" aria-label="Add score button" title="Add score" t-on-click.stop="trigger('create-element', 'score')"></i>
