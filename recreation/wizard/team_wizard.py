@@ -8,7 +8,9 @@ class RecreationTeamWizard(models.TransientModel):
     _description = 'Wizard: Add Teams to a New Match'
 
     def _default_match(self):
-        return self.env.context['match_id'] or self.env['recreation.match'].browse(self._context.get('active_id'))
+        if 'match_id' in self.env.context:
+            return self.env.context['match_id']
+        return self.env['recreation.match'].browse(self._context.get('active_id'))
 
     match_id = fields.Many2one(comodel_name='recreation.match', string='Match', default=_default_match)
 
@@ -20,7 +22,7 @@ class RecreationTeamWizard(models.TransientModel):
                 'match_id': self.match_id.id,
                 'team_id': team.id
             })
-        if self.env.context['start']:
+        if 'start' in self.env.context and self.env.context['start']:
             return self.match_id.start_game()
         
 
