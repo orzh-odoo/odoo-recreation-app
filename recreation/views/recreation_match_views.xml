@@ -22,7 +22,8 @@
                             <group>
                                 <field name="activity_id"/>
                                 <field name="location_id"/>
-                                <field name="result_ids"/>
+                                <field name="team_ids" attrs="{'invisible': [('status', 'in', ('in_progress', 'done'))]}"/>
+                                <field name="result_ids" attrs="{'invisible': [('status', 'in', ('draft'))]}"/>
                                 <field name="winner"/>
                             </group>
                             <group>

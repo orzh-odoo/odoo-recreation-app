@@ -229,6 +229,16 @@ class Scoreboard extends Component {
         const element = event.detail;
         await this._save(element);
     }
+    async _exitScoreboard() {
+        this.ormService.call('recreation.match', 'close_scoreboard', [this.match.id])
+    }
+    async _endGame() {
+        this.ormService.call('recreation.match', 'end_game', [this.match.id])
+    }
+    async _rematch() {
+        const newMatch = this.ormService.call('recreation.match', 'copy', [this.match.id]);
+        this.ormService.call('recreation.match', 'start_game', [newMatch])
+    }
 }
 
 Scoreboard.template = 'scoreboard';

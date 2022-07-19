@@ -11,10 +11,11 @@ class RecreationMatch(models.Model):
     
     name = fields.Char(string='Name', compute='_default_name', store=True, readonly=False)
     activity_id = fields.Many2one(comodel_name='recreation.activity', string='Activity', required=True)
-    start_time = fields.Datetime(string='Start Time')
-    end_time = fields.Datetime(string='End Time', compute='_compute_end_time', inverse='_inverse_end_time', store=True)
-    activity_time = fields.Integer(string='Activity Time', compute='_compute_activity_time', inverse='_inverse_activity_time', store=True)
-    result_ids = fields.One2many(comodel_name='recreation.result', inverse_name='match_id', string='Results', readonly=True)
+    start_time = fields.Datetime(string='Start Time', copy=False)
+    end_time = fields.Datetime(string='End Time', compute='_compute_end_time', inverse='_inverse_end_time', store=True, copy=False)
+    activity_time = fields.Integer(string='Activity Time', compute='_compute_activity_time', inverse='_inverse_activity_time', store=True, copy=False)
+    team_ids = fields.Many2many(string='Teams', comodel_name='recreation.team', copy=True)
+    result_ids = fields.One2many(comodel_name='recreation.result', inverse_name='match_id', string='Results', readonly=True, copy=False)
     location_id = fields.Many2one(comodel_name='recreation.location', string='Location')
     attending_members = fields.Many2many(comodel_name='res.partner', string='Attending Members')
     winner = fields.Many2one(comodel_name='recreation.team', string='Winner', compute='_compute_winner')
@@ -26,7 +27,8 @@ class RecreationMatch(models.Model):
             ('done', 'Done')
         ],
         default='draft',
-        required=True
+        required=True,
+        copy=False
     )
     team_names = fields.Char(compute='_compute_team_names')
 
@@ -92,6 +94,12 @@ class RecreationMatch(models.Model):
         if self.status != 'draft':
             return
 
+        for team in self.team_ids:
+            self.env['recreation.result'].create({
+                'match_id': self.id,
+                'team_id': team.id
+            })
+
         self.start_time = fields.Datetime.now()
         self.status = 'in_progress'
 
@@ -107,8 +115,10 @@ class RecreationMatch(models.Model):
 
     @api.depends('activity_id', 'result_ids')
     def _default_name(self):
-        if not self.name and self.result_ids:
-            names = []
-            for result in self.result_ids:
-                names.append(result.team_id.name)
+        names = []
+        for result in self.team_ids:
+            names.append(result.team_id.name)
+        if self.activity_id.name:
             self.name = self.activity_id.name + ' / ' +' vs. '.join(names)
+        else:
+            self.name = ''
