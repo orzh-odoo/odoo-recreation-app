@@ -7,9 +7,6 @@ import Ranking from './Ranking';
 import Upcoming from './Upcoming';
 import Popup from './Popup';
 
-var qweb = core.qweb;
-var _t = core._t
-
 const { Component } = owl;
 const { useListener } = require('web.custom_hooks');
 const { useState } = owl.hooks;
@@ -23,6 +20,8 @@ class Scoreboard extends Component {
         useListener('save-element', this._onSaveElement);
         useListener('create-element', this._onCreateElement);
         useListener('remove-element', this._onRemoveElement);
+        useListener('rematch', this._onRematch);
+        useListener('exit-scoreboard', this._onExitScoreboard)
         this.state = useState({
             selectedElementId: null,
             isEditMode: !!this.props.action.context.edit,
@@ -32,6 +31,7 @@ class Scoreboard extends Component {
 
     async setup() {
         this.ormService = useService("orm");
+        this.actionService = useService("action");
         onWillStart(async () => {
             let match, results, teams, location, startTime, nextMatch, nextResults, nextStartTime, customIncrement;
             if (!this.state.isEditMode) {
@@ -229,15 +229,20 @@ class Scoreboard extends Component {
         const element = event.detail;
         await this._save(element);
     }
-    async _exitScoreboard() {
-        this.ormService.call('recreation.match', 'close_scoreboard', [this.match.id])
+    async _onExitScoreboard() {
+        this.ormService.call('recreation.match', 'close_scoreboard', [this.match.id]).then(res => {
+            this.actionService.doAction(res)
+        })
     }
-    async _endGame() {
+    async endGame() {
         this.ormService.call('recreation.match', 'end_game', [this.match.id])
     }
-    async _rematch() {
-        const newMatch = this.ormService.call('recreation.match', 'copy', [this.match.id]);
-        this.ormService.call('recreation.match', 'start_game', [newMatch])
+    async _onRematch() {
+        const newMatch = await this.ormService.call('recreation.match', 'copy', [this.match.id]);
+        console.log(newMatch)
+        this.ormService.call('recreation.match', 'start_game', [newMatch]).then(res => {
+            this.actionService.doAction(res)
+        })
     }
 }
 

@@ -83,6 +83,9 @@ class RecreationMatch(models.Model):
         action['context'] = {'match':self.id, 'next_match': self.find_next_match().id if self.find_next_match() else False}
         return action
 
+    def close_scoreboard(self):
+        return
+
     def end_game(self):
         if self.status != 'in_progress':
             return

@@ -15,8 +15,8 @@
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-warning">END GAME</button>
-                  <button type="button" class="btn btn-primary">Rematch</button>
+                  <button type="button" class="btn btn-warning" t-on-click.end="trigger('exit-scoreboard')">Exit</button>
+                  <button type="button" class="btn btn-primary" t-on-click.end="trigger('rematch')">Rematch</button>
                 </div>
               </div>
             </div>
