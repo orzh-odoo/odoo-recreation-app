@@ -7,6 +7,7 @@
             <field name="rules">Hit the ball once on your side and once on the opponent side to keep the ball alive. If you can't do it, the other side gets a point.</field>
             <field name="location_ids" eval="[(6,0,[ref('recreation.lobby'),ref('recreation.floor_25_breakroom'),ref('recreation.floor_26_breakroom')])]"/>
             <field name="average_game_time">20</field>
+            <field name="image" type="base64" file="recreation/static/img/ping_pong.png" />
         </record>
         <record model="recreation.activity" id="basketball">
             <field name="name">Basketball</field>
@@ -14,6 +15,7 @@
             <field name="rules">You have to dribble the ball to move around the court and can't engage in rough physical contact or else you'll be called for a foul.</field>
             <field name="location_ids" eval="[(6,0,[ref('recreation.lobby')])]"></field>
             <field name="average_game_time">48</field>
+            <field name="image" type="base64" file="recreation/static/img/basketball.png" />
         </record>
         <record model="recreation.activity" id="darts">
             <field name="name">Darts</field>
@@ -21,6 +23,7 @@
             <field name="rules">Players take turns throwing darts at the board behind the line. Inner small sections are 3x multipliers. Outer small sections are 2x multipliers. Bulls eye is 50 points.</field>
             <field name="location_ids" eval="[(6,0,[ref('recreation.floor_25_breakroom'),ref('recreation.floor_26_breakroom')])]"></field>
             <field name="average_game_time">10</field>
+            <field name="image" type="base64" file="recreation/static/img/darts.png" />
         </record>
     </data>
 </odoo>
