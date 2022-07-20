@@ -84,7 +84,16 @@ class RecreationMatch(models.Model):
         return action
 
     def close_scoreboard(self):
-        return
+        action = {
+            'name': 'Close Scoreboard',
+            'type': 'ir.actions.act_window',
+            'res_model': 'recreation.match',
+            'view_mode': 'form',
+            'views': [[False, 'form']],
+            'res_id': self.id,
+            'target': 'main'
+        }
+        return action
 
     def end_game(self):
         if self.status != 'in_progress':

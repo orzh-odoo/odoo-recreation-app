@@ -231,6 +231,7 @@ class Scoreboard extends Component {
     }
     async _onExitScoreboard() {
         this.ormService.call('recreation.match', 'close_scoreboard', [this.match.id]).then(res => {
+            console.log(res)
             this.actionService.doAction(res)
         })
     }
@@ -239,8 +240,8 @@ class Scoreboard extends Component {
     }
     async _onRematch() {
         const newMatch = await this.ormService.call('recreation.match', 'copy', [this.match.id]);
-        console.log(newMatch)
         this.ormService.call('recreation.match', 'start_game', [newMatch]).then(res => {
+            console.log(res)
             this.actionService.doAction(res)
         })
     }
