@@ -103,7 +103,7 @@ class Scoreboard extends Component {
     }
 
     async load() {
-        const match = (await this.ormService.read('recreation.match', [this.props.action.context.match], []))[0];
+        const match = (await this.ormService.read('recreation.match', [this.props.action.context.active_id], []))[0];
         const results = await this.ormService.read('recreation.result', match.result_ids, []);
         const teams = await this.ormService.read('recreation.team', results.map(r => r.team_id[0]), []);
         const customIncrement = (await this.ormService.read('recreation.activity', [match.activity_id[0]], ['custom_input']))[0].custom_input

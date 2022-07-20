@@ -23,6 +23,7 @@
             <field name="rules">Players take turns throwing darts at the board behind the line. Inner small sections are 3x multipliers. Outer small sections are 2x multipliers. Bulls eye is 50 points.</field>
             <field name="location_ids" eval="[(6,0,[ref('recreation.floor_25_breakroom'),ref('recreation.floor_26_breakroom')])]"></field>
             <field name="average_game_time">10</field>
+            <field name="custom_input">True</field>
             <field name="image" type="base64" file="recreation/static/img/darts.png" />
         </record>
     </data>

@@ -79,7 +79,7 @@ class RecreationMatch(models.Model):
 
     def open_scoreboard(self):
         action = self.env.ref('recreation.recreation_action_scoreboard').read()[0] 
-        action['context'] = {'match':self.id, 'next_match': self.find_next_match().id if self.find_next_match() else False}
+        action['context'] = {'active_id': self.id, 'next_match': self.find_next_match().id if self.find_next_match() else False}
         return action
 
     def close_scoreboard(self):
