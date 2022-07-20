@@ -32,12 +32,12 @@ class RecreationMatch(models.Model):
     )
     team_names = fields.Char(compute='_compute_team_names')
 
-    @api.depends('result_ids')
+    @api.depends('team_ids')
     def _compute_team_names(self):
         for match in self:
             names = []
-            for result in match.result_ids:
-                names.append(result.team_id.name)
+            for team in match.team_ids:
+                names.append(team.name)
             match.team_names = ', '.join(names)
 
     @api.depends('start_time', 'activity_time')
@@ -129,7 +129,7 @@ class RecreationMatch(models.Model):
     def _default_name(self):
         names = []
         for result in self.team_ids:
-            names.append(result.team_id.name)
+            names.append(result.name)
         if self.activity_id.name:
             self.name = self.activity_id.name + ' / ' +' vs. '.join(names)
         else:
