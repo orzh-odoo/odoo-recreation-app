@@ -9,9 +9,7 @@
                   <h5 class="modal-title" id="staticBackdropLabel">Game Over</h5>
                 </div>
                 <div class="modal-body">
-                    <h1>
-                        Epic Team is the Winner!
-                    </h1>
+                    <h1 t-esc="`${props.winner} is the Winner!`"/>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

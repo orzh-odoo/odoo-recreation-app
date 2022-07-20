@@ -33,9 +33,9 @@ class Scoreboard extends Component {
         this.ormService = useService("orm");
         this.actionService = useService("action");
         onWillStart(async () => {
-            let match, results, teams, location, startTime, nextMatch, nextResults, nextStartTime, customIncrement;
+            let match, results, teams, location, startTime, nextMatch, nextResults, nextStartTime, customIncrement, winner;
             if (!this.state.isEditMode) {
-                ({ match, results, teams, location, startTime, nextMatch, nextResults, nextStartTime, customIncrement } = await this.load());
+                ({ match, results, teams, location, startTime, nextMatch, nextResults, nextStartTime, customIncrement, winner } = await this.load());
             }
             else {
                 match = {
@@ -73,7 +73,7 @@ class Scoreboard extends Component {
                 location = 'Location of Activity';
                 startTime = '4:00 PM';
             }
-            this.match = match;
+            this.state.match = match;
             this.results = results;
             this.teams = teams;
             this.location = location;
@@ -82,8 +82,24 @@ class Scoreboard extends Component {
             this.nextResults = nextResults;
             this.nextStartTime = nextStartTime;
             this.customIncrement = customIncrement
+            this.state.winner = winner;
             await this.fetchScoreboardElements()
         });
+    }
+
+    async loadRender() {
+        let { match, results, teams, location, startTime, nextMatch, nextResults, nextStartTime, customIncrement, winner } = await this.load();
+        this.state.match = match;
+        this.results = results;
+        this.teams = teams;
+        this.location = location;
+        this.startTime = startTime;
+        this.nextMatch = nextMatch;
+        this.nextResults = nextResults;
+        this.nextStartTime = nextStartTime;
+        this.customIncrement = customIncrement
+        this.winner = winner;
+        await this.fetchScoreboardElements()
     }
 
     async load() {
@@ -93,6 +109,7 @@ class Scoreboard extends Component {
         const customIncrement = (await this.ormService.read('recreation.activity', [match.activity_id[0]], ['custom_input']))[0].custom_input
         const location = match.location_id[1];
         const startTime = match.start_time;
+        const winner = match.winner[1];
         let nextMatch, nextResults, nextStartTime;
         if (this.props.action.context.next_match){
             nextMatch = (await this.ormService.read('recreation.match', [this.props.action.context.next_match], []))[0];
@@ -102,16 +119,20 @@ class Scoreboard extends Component {
         else{
             nextMatch, nextResults, nextStartTime = false;
         }
-        return { match, results, teams, location, startTime, nextMatch, nextResults, nextStartTime, customIncrement };
+        return { match, results, teams, location, startTime, nextMatch, nextResults, nextStartTime, customIncrement, winner };
     }
 
     async fetchScoreboardElements() {
-        const scoreboardElements = await this.ormService.searchRead('recreation.scoreboard.element', [['activity_id', '=', this.match.activity_id[0]]], []);
+        const scoreboardElements = await this.ormService.searchRead('recreation.scoreboard.element', [['activity_id', '=', this.state.match.activity_id[0]]], []);
         this.scoreboardElements = scoreboardElements;
     }
 
     get isScoreboardEmpty() {
         return this.activeScoreboardElements.length === 0;
+    }
+
+    get getWinner() {
+        return this.winner;
     }
 
     get activeScoreboardElements() {
@@ -192,7 +213,7 @@ class Scoreboard extends Component {
     async _create(elementType) {
         const newElemId = await this.ormService.create('recreation.scoreboard.element', {
             'element_type': elementType,
-            'activity_id': this.match.activity_id[0]
+            'activity_id': this.state.match.activity_id[0]
         });
         const newElem = (await this.ormService.read('recreation.scoreboard.element', [newElemId], []))[0];
         this.scoreboardElements.push(newElem);
@@ -230,18 +251,17 @@ class Scoreboard extends Component {
         await this._save(element);
     }
     async _onExitScoreboard() {
-        this.ormService.call('recreation.match', 'close_scoreboard', [this.match.id]).then(res => {
-            console.log(res)
+        this.ormService.call('recreation.match', 'close_scoreboard', [this.state.match.id]).then(res => {
             this.actionService.doAction(res)
         })
     }
     async endGame() {
-        this.ormService.call('recreation.match', 'end_game', [this.match.id])
+        await this.ormService.call('recreation.match', 'end_game', [this.state.match.id])
+        this.loadRender()
     }
     async _onRematch() {
-        const newMatch = await this.ormService.call('recreation.match', 'copy', [this.match.id]);
+        const newMatch = await this.ormService.call('recreation.match', 'copy', [this.state.match.id]);
         this.ormService.call('recreation.match', 'start_game', [newMatch]).then(res => {
-            console.log(res)
             this.actionService.doAction(res)
         })
     }
