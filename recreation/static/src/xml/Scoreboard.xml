@@ -5,7 +5,7 @@
         <div class="scoreboard-screen screen">
             <div class="screen-content-flexbox">
                 <div t-on-click="trigger('deselect-element')" class="scoreboard" t-ref="scoreboard-ref">
-                    <Popup/>
+                    <Popup winner="getWinner"/>
                     <div t-if="isScoreboardEmpty" class="empty-scoreboard">
                         <span>This scoreboard has no elements yet, use the buttons in the editing toolbar to create new elements.</span>
                     </div>
