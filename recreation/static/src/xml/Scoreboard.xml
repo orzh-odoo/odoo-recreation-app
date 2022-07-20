@@ -20,10 +20,12 @@
                         <button class="btn" t-on-click="triggerBack">
                             <i class="fa fa-arrow-left fa-lg" role="img" aria-label="Back button" title="Back"></i>
                         </button>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop" t-on-click.end="endGame()">
-                            End Game
-                        </button>
-                        <button class="btn btn-secondary">Reorder Teams</button>
+                        <t t-if="!state.isEditMode">
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop" t-on-click.end="endGame()">
+                                End Game
+                            </button>
+                            <button class="btn btn-secondary">Reorder Teams</button>
+                        </t>
                     </div>
                     <div class="scoreboard-bar scoreboard-edit-bar" t-if="state.isEditMode">
                         <i class="fa fa-calculator fa-lg" role="img" aria-label="Add score button" title="Add score" t-on-click.stop="trigger('create-element', 'score')"></i>

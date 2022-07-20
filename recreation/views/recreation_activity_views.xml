@@ -34,8 +34,8 @@
                     </header>
                     <sheet>
                         <h1><field name="name" /></h1>
+                        <field name="image" class="oe_avatar float-left" widget="image" />
                         <group>
-                            <field name="image" class="oe_avatar" widget="image" />
                             <field name="description" />
                             <field name="average_game_time" />
                         </group>
