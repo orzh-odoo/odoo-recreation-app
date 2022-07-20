@@ -18,10 +18,11 @@ class RecreationTeamWizard(models.TransientModel):
 
     def save_teams(self):
         for team in self.team_ids:
-            self.env['recreation.result'].create({
-                'match_id': self.match_id.id,
-                'team_id': team.id
-            })
+            self.match_id.team_ids = [(4, team.id)]
+            # self.env['recreation.result'].create({
+            #     'match_id': self.match_id.id,
+            #     'team_id': team.id
+            # })
         if 'start' in self.env.context and self.env.context['start']:
             return self.match_id.start_game()
         

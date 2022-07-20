@@ -32,11 +32,6 @@
                                 <field name="activity_time"/>
                             </group>
                         </group>
-                        <notebook>
-                            <page string="Attending Members">
-                                <field name="attending_members"/>
-                            </page>
-                        </notebook>
                     </sheet>
                 </form>
             </field>

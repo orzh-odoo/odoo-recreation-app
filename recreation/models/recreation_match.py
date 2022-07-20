@@ -17,7 +17,6 @@ class RecreationMatch(models.Model):
     team_ids = fields.Many2many(string='Teams', comodel_name='recreation.team', copy=True)
     result_ids = fields.One2many(comodel_name='recreation.result', inverse_name='match_id', string='Results', readonly=True, copy=False)
     location_id = fields.Many2one(comodel_name='recreation.location', string='Location')
-    attending_members = fields.Many2many(comodel_name='res.partner', string='Attending Members')
     winner = fields.Many2one(comodel_name='recreation.team', string='Winner', compute='_compute_winner')
     status = fields.Selection(
         string='Status',
@@ -32,12 +31,12 @@ class RecreationMatch(models.Model):
     )
     team_names = fields.Char(compute='_compute_team_names')
 
-    @api.depends('result_ids')
+    @api.depends('team_ids')
     def _compute_team_names(self):
         for match in self:
             names = []
-            for result in match.result_ids:
-                names.append(result.team_id.name)
+            for team in match.team_ids:
+                names.append(team.name)
             match.team_names = ', '.join(names)
 
     @api.depends('start_time', 'activity_time')
@@ -125,11 +124,11 @@ class RecreationMatch(models.Model):
         return next_match
 
 
-    @api.depends('activity_id', 'result_ids')
+    @api.depends('activity_id', 'team_ids')
     def _default_name(self):
         names = []
         for result in self.team_ids:
-            names.append(result.team_id.name)
+            names.append(result.name)
         if self.activity_id.name:
             self.name = self.activity_id.name + ' / ' +' vs. '.join(names)
         else:
