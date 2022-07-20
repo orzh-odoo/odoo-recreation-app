@@ -10,7 +10,7 @@
                         <field name="team_ids"/>
                     </group>
                     <footer>
-                        <button name="save_teams" type="object" string="Save" class="oe_highlight"/>
+                        <button name="save_teams" type="object" string="Start" class="oe_highlight"/>
                         or
                         <button special="cancel" string="Cancel"/>
                     </footer>

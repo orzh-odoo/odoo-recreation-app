@@ -14,7 +14,6 @@
         'demo/recreation_location_demo.xml',
         'demo/recreation_activity_demo.xml',
         'demo/recreation_team_demo.xml',
-        'demo/recreation_result_demo.xml',
         'demo/recreation_match_demo.xml',
     ],
     'data': [
@@ -35,5 +34,6 @@
         'web.assets_qweb': [
             'recreation/static/src/xml/**/*.xml',
         ],
-    }
+    },
+    'application': True
 }
