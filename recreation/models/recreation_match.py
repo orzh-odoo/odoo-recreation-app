@@ -125,7 +125,7 @@ class RecreationMatch(models.Model):
         return next_match
 
 
-    @api.depends('activity_id', 'result_ids')
+    @api.depends('activity_id', 'team_ids')
     def _default_name(self):
         names = []
         for result in self.team_ids:
