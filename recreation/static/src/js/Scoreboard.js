@@ -18,15 +18,17 @@ class Scoreboard extends Component {
         useListener('select-element', this._onSelectElement);
         useListener('deselect-element', this._onDeselectElement);
         useListener('save-element', this._onSaveElement);
-        useListener('create-element', this._onCreateElement);
-        useListener('remove-element', this._onRemoveElement);
         useListener('rematch', this._onRematch);
-        useListener('exit-scoreboard', this._onExitScoreboard)
+        useListener('exit-scoreboard', this._onExitScoreboard);
+        useListener('toggle-element', this._toggleElement);
         this.state = useState({
-            selectedElementId: null,
+            selectedElement: {
+                id: null,
+                type: null
+            },
             isEditMode: !!this.props.action.context.edit,
         });
-        this.scoreboardElements = [];
+        this.scoreboardElements = {};
     }
 
     async setup() {
@@ -111,12 +113,12 @@ class Scoreboard extends Component {
         const startTime = match.start_time;
         const winner = match.winner[1];
         let nextMatch, nextResults, nextStartTime;
-        if (this.props.action.context.next_match){
+        if (this.props.action.context.next_match) {
             nextMatch = (await this.ormService.read('recreation.match', [this.props.action.context.next_match], []))[0];
             nextResults = await this.ormService.read('recreation.result', nextMatch.result_ids, []);
             nextStartTime = nextMatch.start_time;
         }
-        else{
+        else {
             nextMatch, nextResults, nextStartTime = false;
         }
         return { match, results, teams, location, startTime, nextMatch, nextResults, nextStartTime, customIncrement, winner };
@@ -124,7 +126,9 @@ class Scoreboard extends Component {
 
     async fetchScoreboardElements() {
         const scoreboardElements = await this.ormService.searchRead('recreation.scoreboard.element', [['activity_id', '=', this.state.match.activity_id[0]]], []);
-        this.scoreboardElements = scoreboardElements;
+        for (let element of scoreboardElements) {
+            this.scoreboardElements[element.element_type] = element
+        }
     }
 
     get isScoreboardEmpty() {
@@ -137,61 +141,64 @@ class Scoreboard extends Component {
 
     get activeScoreboardElements() {
         let data = []
-        for (let record of this.scoreboardElements){
-            let element = {};
+        let elements = this.scoreboardElements
+        for (let record in elements) {
+            if (elements[record]) {
+                let element = {};
 
-            element.id = record.id;
-            element.type = record.element_type;
-            element.teams = [];
-            element.scores = [];
-            element.upcoming = {};
+                element.id = elements[record].id;
+                element.type = elements[record].element_type;
+                element.teams = [];
+                element.scores = [];
+                element.upcoming = {};
 
-            element.width = record.width;
-            element.height = record.height;
-            element.position_v = record.position_v;
-            element.position_h = record.position_h;
+                element.width = elements[record].width;
+                element.height = elements[record].height;
+                element.position_v = elements[record].position_v;
+                element.position_h = elements[record].position_h;
 
-            if (element.type == 'ranking') {
-                let teams = [];
-                for (let i = 0; i < this.results.length; i++){
-                    teams.push({
-                        id: this.results[i].team_id[0],
-                        teamName: this.results[i].team_id[1],
-                        wins: this.teams[i].wins,
-                        losses: this.teams[i].losses,
-                        ties: this.teams[i].ties
-                    })
+                if (element.type == 'ranking') {
+                    let teams = [];
+                    for (let i = 0; i < this.results.length; i++) {
+                        teams.push({
+                            id: this.results[i].team_id[0],
+                            teamName: this.results[i].team_id[1],
+                            wins: this.teams[i].wins,
+                            losses: this.teams[i].losses,
+                            ties: this.teams[i].ties
+                        })
+                    }
+                    teams.sort((a, b) => (a.wins > b.wins ? -1 : 1))
+                    element.teams = teams.map((ele, idx) => { return { ...ele, rank: idx + 1 } })
                 }
-                teams.sort((a, b) => (a.wins > b.wins ? -1 : 1))
-                element.teams = teams.map((ele, idx) => {return {...ele, rank: idx + 1}})
-            }
-            else if (element.type == 'score') {
-                element.customIncrement = this.customIncrement;
-                for (let result of this.results){
-                    element.scores.push({
-                        id: result.id,
-                        teamName: result.team_id[1],
-                        points: result.score
-                    })
-                }
-            }
-            else if (element.type == 'upcoming') {
-                if (this.nextMatch){
-                    element.upcoming = {
-                        teams: this.nextResults.map(team => team.team_id[1]),
-                        startTime: this.nextStartTime,
-                        nextMatch: true
+                else if (element.type == 'score') {
+                    element.customIncrement = this.customIncrement;
+                    for (let result of this.results) {
+                        element.scores.push({
+                            id: result.id,
+                            teamName: result.team_id[1],
+                            points: result.score
+                        })
                     }
                 }
-                else{
-                    element.upcoming = {
-                        nextMatch: false
+                else if (element.type == 'upcoming') {
+                    if (this.nextMatch) {
+                        element.upcoming = {
+                            teams: this.nextResults.map(team => team.team_id[1]),
+                            startTime: this.nextStartTime,
+                            nextMatch: true
+                        }
+                    }
+                    else {
+                        element.upcoming = {
+                            nextMatch: false
+                        }
                     }
                 }
-            }
 
-            element.edit = element.id === this.state.selectedElementId;
-            data.push(element)
+                element.edit = element.id === this.state.selectedElement.id;
+                data.push(element)
+            }
         }
 
         return data;
@@ -201,14 +208,26 @@ class Scoreboard extends Component {
         history.back();
     }
 
+    _toggleElement(event) {
+        const element = event.detail;
+        if (this.scoreboardElements[element]){
+            this._remove(element)
+        }
+        else{
+            this._create(element)
+        }
+    }
+
     _onSelectElement(event) {
         const element = event.detail;
         if (this.state.isEditMode) {
-            this.state.selectedElementId = element.id;
+            this.state.selectedElement.id = element.id;
+            this.state.selectedElement.type = element.type
         }
     }
     _onDeselectElement() {
-        this.state.selectedElementId = null;
+        this.state.selectedElement.id = null;
+        this.state.selectedElement.type = null;
     }
     async _create(elementType) {
         const newElemId = await this.ormService.create('recreation.scoreboard.element', {
@@ -216,24 +235,13 @@ class Scoreboard extends Component {
             'activity_id': this.state.match.activity_id[0]
         });
         const newElem = (await this.ormService.read('recreation.scoreboard.element', [newElemId], []))[0];
-        this.scoreboardElements.push(newElem);
+        this.scoreboardElements[elementType] = newElem;
         this.render();
     }
-    async _onCreateElement(event) {
-        const element = event.detail;
-        await this._create(element);
-    }
-    async _remove(elementId) {
-        this.ormService.unlink('recreation.scoreboard.element', [elementId]);
-
-        const i = this.scoreboardElements.findIndex((elem) => elem.id == elementId)
-        if (i > -1) this.scoreboardElements.splice(i, 1);
+    async _remove(element) {
+        this.ormService.unlink('recreation.scoreboard.element', [this.scoreboardElements[element].id]);
+        this.scoreboardElements[element] = null;
         this.render();
-    }
-    async _onRemoveElement(event) {
-        if (this.state.selectedElementId) {
-            await this._remove(this.state.selectedElementId)
-        }        
     }
     async _save(element) {
         let data = {};
@@ -242,9 +250,7 @@ class Scoreboard extends Component {
         if (element.height) data.height = element.height;
         if (element.width) data.width = element.width;
         this.ormService.write('recreation.scoreboard.element', [element.id], data);
-        
-        const i = this.scoreboardElements.findIndex((elem) => elem.id == element.id)
-        this.scoreboardElements[i] = {...this.scoreboardElements[i], ...data}
+        this.scoreboardElements[element.type] = { ...this.scoreboardElements[element.type], ...data }
     }
     async _onSaveElement(event) {
         const element = event.detail;
