@@ -13,7 +13,6 @@
                     <h2 t-if="props.winner" t-esc="`${props.winner} is the Winner!`"/>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                   <button type="button" class="btn btn-warning" t-on-click.end="trigger('exit-scoreboard')">Exit</button>
                   <button type="button" class="btn btn-primary" t-on-click.end="trigger('rematch')">Rematch</button>
                 </div>
