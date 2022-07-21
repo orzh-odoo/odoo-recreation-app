@@ -33,9 +33,9 @@ class Scoreboard extends Component {
         this.ormService = useService("orm");
         this.actionService = useService("action");
         onWillStart(async () => {
-            let match, results, teams, location, startTime, nextMatch, nextResults, nextStartTime, customIncrement, winner;
+            let match, results, teams, location, startTime, nextMatch, nextTeams, nextStartTime, customIncrement, winner;
             if (!this.state.isEditMode) {
-                ({ match, results, teams, location, startTime, nextMatch, nextResults, nextStartTime, customIncrement, winner } = await this.load());
+                ({ match, results, teams, location, startTime, nextMatch, nextTeams, nextStartTime, customIncrement, winner } = await this.load());
             }
             else {
                 match = {
@@ -79,7 +79,7 @@ class Scoreboard extends Component {
             this.location = location;
             this.startTime = startTime;
             this.nextMatch = nextMatch;
-            this.nextResults = nextResults;
+            this.nextTeams = nextTeams;
             this.nextStartTime = nextStartTime;
             this.customIncrement = customIncrement
             this.state.winner = winner;
@@ -88,14 +88,14 @@ class Scoreboard extends Component {
     }
 
     async loadRender() {
-        let { match, results, teams, location, startTime, nextMatch, nextResults, nextStartTime, customIncrement, winner } = await this.load();
+        let { match, results, teams, location, startTime, nextMatch, nextTeams, nextStartTime, customIncrement, winner } = await this.load();
         this.state.match = match;
         this.results = results;
         this.teams = teams;
         this.location = location;
         this.startTime = startTime;
         this.nextMatch = nextMatch;
-        this.nextResults = nextResults;
+        this.nextTeams = nextTeams;
         this.nextStartTime = nextStartTime;
         this.customIncrement = customIncrement
         this.winner = winner;
@@ -110,16 +110,17 @@ class Scoreboard extends Component {
         const location = match.location_id[1];
         const startTime = match.start_time;
         const winner = match.winner[1];
-        let nextMatch, nextResults, nextStartTime;
-        if (this.props.action.context.next_match){
-            nextMatch = (await this.ormService.read('recreation.match', [this.props.action.context.next_match], []))[0];
-            nextResults = await this.ormService.read('recreation.result', nextMatch.result_ids, []);
+        let nextMatch, nextTeams, nextStartTime;
+        const nextMatchId = await this.ormService.call('recreation.match', 'find_next_match', [this.props.action.context.active_id])
+        if (nextMatchId){
+            nextMatch = (await this.ormService.read('recreation.match', [nextMatchId], []))[0];
+            nextTeams = await this.ormService.read('recreation.team', nextMatch.team_ids, []);
             nextStartTime = nextMatch.start_time;
         }
         else{
-            nextMatch, nextResults, nextStartTime = false;
+            nextMatch, nextTeams, nextStartTime = false;
         }
-        return { match, results, teams, location, startTime, nextMatch, nextResults, nextStartTime, customIncrement, winner };
+        return { match, results, teams, location, startTime, nextMatch, nextTeams, nextStartTime, customIncrement, winner };
     }
 
     async fetchScoreboardElements() {
@@ -178,7 +179,7 @@ class Scoreboard extends Component {
             else if (element.type == 'upcoming') {
                 if (this.nextMatch){
                     element.upcoming = {
-                        teams: this.nextResults.map(team => team.team_id[1]),
+                        teams: this.nextTeams.map(team => team.name),
                         startTime: this.nextStartTime,
                         nextMatch: true
                     }
