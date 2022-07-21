@@ -11,11 +11,13 @@ class RecreationScoreboardElement(models.Model):
     position_v = fields.Float(string='Vertical Position')
     height = fields.Float(string='Height')
     width = fields.Float(string='Width')
+    image = fields.Image()
     element_type = fields.Selection(
         string='Element Type',
         selection=[
             ('score', 'Score'),
             ('ranking', 'Ranking'),
-            ('upcoming', 'Upcoming') 
+            ('upcoming', 'Upcoming'),
+            ('photo', 'Photo')
         ]
     )
