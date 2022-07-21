@@ -6,6 +6,7 @@ import Score from './Score';
 import Ranking from './Ranking';
 import Upcoming from './Upcoming';
 import Popup from './Popup';
+import BackgroundImage from './BackgroundImage';
 
 const { Component } = owl;
 const { useListener } = require('web.custom_hooks');
