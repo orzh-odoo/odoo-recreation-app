@@ -256,6 +256,12 @@ class Scoreboard extends Component {
             this.actionService.doAction(res)
         })
     }
+    reorder() {
+        const oldElem = this.results[0]
+        this.results = this.results.slice(1)
+        this.results.push(oldElem)
+        this.render()
+    }
     async endGame() {
         await this.ormService.call('recreation.match', 'end_game', [this.state.match.id])
         this.loadRender()
