@@ -113,16 +113,6 @@ class Scoreboard extends Component {
         const location = match.location_id[1];
         const startTime = match.start_time;
         const winner = match.winner[1];
-<<<<<<< HEAD
-        let nextMatch, nextResults, nextStartTime;
-        if (this.props.action.context.next_match) {
-            nextMatch = (await this.ormService.read('recreation.match', [this.props.action.context.next_match], []))[0];
-            nextResults = await this.ormService.read('recreation.result', nextMatch.result_ids, []);
-            nextStartTime = nextMatch.start_time;
-        }
-        else {
-            nextMatch, nextResults, nextStartTime = false;
-=======
         let nextMatch, nextTeams, nextStartTime;
         const nextMatchId = await this.ormService.call('recreation.match', 'find_next_match', [this.props.action.context.active_id])
         if (nextMatchId){
@@ -132,7 +122,6 @@ class Scoreboard extends Component {
         }
         else{
             nextMatch, nextTeams, nextStartTime = false;
->>>>>>> refs/remotes/origin/main
         }
         return { match, results, teams, location, startTime, nextMatch, nextTeams, nextStartTime, customIncrement, winner };
     }
@@ -184,16 +173,6 @@ class Scoreboard extends Component {
                     teams.sort((a, b) => (a.wins > b.wins ? -1 : 1))
                     element.teams = teams.map((ele, idx) => { return { ...ele, rank: idx + 1 } })
                 }
-<<<<<<< HEAD
-                else if (element.type == 'score') {
-                    element.customIncrement = this.customIncrement;
-                    for (let result of this.results) {
-                        element.scores.push({
-                            id: result.id,
-                            teamName: result.team_id[1],
-                            points: result.score
-                        })
-=======
                 teams.sort((a, b) => (a.wins > b.wins ? -1 : 1))
                 element.teams = teams.map((ele, idx) => {return {...ele, rank: idx + 1}})
             }
@@ -213,7 +192,6 @@ class Scoreboard extends Component {
                         teams: this.nextTeams.map(team => team.name),
                         startTime: this.nextStartTime,
                         nextMatch: true
->>>>>>> refs/remotes/origin/main
                     }
                 }
                 else if (element.type == 'upcoming') {
