@@ -6,7 +6,7 @@ import Score from './Score';
 import Ranking from './Ranking';
 import Upcoming from './Upcoming';
 import Popup from './Popup';
-import BackgroundImage from './BackgroundImage';
+import Photo from './Photo';
 
 const { Component } = owl;
 const { useListener } = require('web.custom_hooks');
@@ -300,7 +300,7 @@ Scoreboard.components = {
     Score,
     Upcoming,
     Popup,
-    BackgroundImage
+    Photo
 };
 
 core.action_registry.add('recreation_app', Scoreboard);

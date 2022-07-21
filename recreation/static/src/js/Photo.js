@@ -5,14 +5,14 @@ import Resizeable from "./Resizeable";
 import ScoreboardElement from "./ScoreboardElement";
 
 
-class BackgroundImage extends ScoreboardElement{
+class Photo extends ScoreboardElement{
    
 }
 
-BackgroundImage.template = 'ranking'
-BackgroundImage.components = {
+Photo.template = 'photo'
+Photo.components = {
     Draggable,
     Resizeable
 }
 
-export default BackgroundImage;
+export default Photo;
