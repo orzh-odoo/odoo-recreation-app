@@ -25,6 +25,7 @@ class Scoreboard extends Component {
         this.state = useState({
             selectedElementId: null,
             isEditMode: !!this.props.action.context.edit,
+            scoreStartIndex: 0,
         });
         this.scoreboardElements = [];
     }
@@ -168,7 +169,7 @@ class Scoreboard extends Component {
             }
             else if (element.type == 'score') {
                 element.customIncrement = this.customIncrement;
-                for (let result of this.results){
+                for (let result of [...this.results.slice(this.state.scoreStartIndex), ...this.results.slice(0, this.state.scoreStartIndex)]){
                     element.scores.push({
                         id: result.id,
                         teamName: result.team_id[1],
@@ -256,11 +257,10 @@ class Scoreboard extends Component {
             this.actionService.doAction(res)
         })
     }
-    reorder() {
-        const oldElem = this.results[0]
-        this.results = this.results.slice(1)
-        this.results.push(oldElem)
-        this.render()
+    async reorder() {
+        this.results = await this.ormService.read('recreation.result', this.state.match.result_ids, []);
+        this.state.scoreStartIndex = (this.state.scoreStartIndex + 1) % this.results.length;
+        this.render();
     }
     async endGame() {
         await this.ormService.call('recreation.match', 'end_game', [this.state.match.id])
