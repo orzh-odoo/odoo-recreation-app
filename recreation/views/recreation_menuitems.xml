@@ -40,7 +40,7 @@
             <field name="target">fullscreen</field>
         </record>
 
-        <menuitem id="recreation_menu" name="Recreation" sequence="1"/>
+        <menuitem id="recreation_menu" name="Recreation" sequence="1" web_icon="recreation,static/img/icon.png"/>
 
         <menuitem id="recreation_sub_menu" name="Recreation" parent="recreation_menu" sequence="2"/>
         
