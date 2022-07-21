@@ -24,7 +24,7 @@
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop" t-on-click.end="endGame()">
                                 End Game
                             </button>
-                            <button class="btn btn-secondary">Reorder Teams</button>
+                            <button class="btn btn-secondary" t-on-click.end="reorder()">Reorder Teams</button>
                         </t>
                     </div>
                     <div class="scoreboard-bar scoreboard-edit-bar" t-if="state.isEditMode">
