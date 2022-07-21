@@ -141,6 +141,10 @@ class Scoreboard extends Component {
         return this.winner;
     }
 
+    get elementObject() {
+        return this.scoreboardElements;
+    }
+
     get activeScoreboardElements() {
         let data = []
         let elements = this.scoreboardElements
