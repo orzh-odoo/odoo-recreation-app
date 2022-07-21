@@ -198,26 +198,24 @@ class Scoreboard extends Component {
                             nextMatch: true
                         }
                     }
-                    else if (element.type == 'upcoming') {
-                        if (this.nextMatch) {
-                            element.upcoming = {
-                                teams: this.nextResults.map(team => team.team_id[1]),
-                                startTime: this.nextStartTime,
-                                nextMatch: true
-                            }
-                        }
-                        else {
-                            element.upcoming = {
-                                nextMatch: false
-                            }
+                    else {
+                        element.upcoming = {
+                            nextMatch: false
                         }
                     }
                 }
-                element.edit = element.id === this.state.selectedElement.id;
-                data.push(element)
 
+                else if (element.type == 'photo') {
+                    element.photo = {
+                        'img_src': ''
+                    }
+                }
 
             }
+            element.edit = element.id === this.state.selectedElement.id;
+            data.push(element)
+
+
         }
         return data;
     }
@@ -301,7 +299,8 @@ Scoreboard.components = {
     Ranking,
     Score,
     Upcoming,
-    Popup
+    Popup,
+    BackgroundImage
 };
 
 core.action_registry.add('recreation_app', Scoreboard);

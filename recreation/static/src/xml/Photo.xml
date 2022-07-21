@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template id="template" xml:space="preserve">
+    
+    <t t-name="ranking" owl="1">
+        <Draggable limitArea="'.scoreboard'">
+            <Resizeable limitArea="'.scoreboard'">
+                <div class="scoreboard-element">
+                    <div class="photo-element" t-on-click.stop="trigger('select-element', props.element)">
+                        <img t-att-src="props.element.img_src"/>
+                    </div>
+                    <t t-if="props.element.edit">
+                        <div class="resize-handle top resize-handle-n"></div>
+                        <div class="resize-handle bottom resize-handle-s"></div>
+                        <div class="resize-handle left resize-handle-w"></div>
+                        <div class="resize-handle right resize-handle-e"></div>
+                        <span class='resize-handle top right resize-handle-ne'></span>
+                        <span class='resize-handle top left resize-handle-nw'></span>
+                        <span class='resize-handle bottom right resize-handle-se'></span>
+                        <span class='resize-handle bottom left resize-handle-sw'></span>
+                    </t>
+                </div>
+            </Resizeable>
+        </Draggable>
+    </t>
+
+</template>
