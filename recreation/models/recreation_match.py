@@ -63,6 +63,8 @@ class RecreationMatch(models.Model):
             best_score = None
             team_id = None
             for team in match.result_ids:
+                if team.score == best_score:
+                    team_id = None
                 if best_score is None or (match.activity_id.win_condition == 'highest' and team.score > best_score) or (match.activity_id.win_condition == 'lowest' and team.score < best_score):
                     best_score = team.score
                     team_id = team.team_id
