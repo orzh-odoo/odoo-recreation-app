@@ -108,6 +108,6 @@
 }
 
 .score-increment {
-    width: 5ch;
+    width: 5ch !important;
     text-align: center;
 }
