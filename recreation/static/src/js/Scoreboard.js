@@ -6,7 +6,7 @@ import Score from './Score';
 import Ranking from './Ranking';
 import Upcoming from './Upcoming';
 import Popup from './Popup';
-import BackgroundImage from './BackgroundImage';
+import Photo from './Photo';
 
 const { Component } = owl;
 const { useListener } = require('web.custom_hooks');
@@ -200,26 +200,24 @@ class Scoreboard extends Component {
                             nextMatch: true
                         }
                     }
-                    else if (element.type == 'upcoming') {
-                        if (this.nextMatch) {
-                            element.upcoming = {
-                                teams: this.nextResults.map(team => team.team_id[1]),
-                                startTime: this.nextStartTime,
-                                nextMatch: true
-                            }
-                        }
-                        else {
-                            element.upcoming = {
-                                nextMatch: false
-                            }
+                    else {
+                        element.upcoming = {
+                            nextMatch: false
                         }
                     }
                 }
-                element.edit = element.id === this.state.selectedElement.id;
-                data.push(element)
 
+                else if (element.type == 'photo') {
+                    element.photo = {
+                        'img_src': ''
+                    }
+                }
 
             }
+            element.edit = element.id === this.state.selectedElement.id;
+            data.push(element)
+
+
         }
         return data;
     }
@@ -332,7 +330,8 @@ Scoreboard.components = {
     Ranking,
     Score,
     Upcoming,
-    Popup
+    Popup,
+    Photo
 };
 
 core.action_registry.add('recreation_app', Scoreboard);
