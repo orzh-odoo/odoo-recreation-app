@@ -20,12 +20,24 @@ class TeamScore extends Component{
         this.ormService = useService("orm");
     }
     async _onIncrementScore(event) {
-        this.props.score.points += this.state.scoreIncrement;
+        const increment = event.detail;
+        if (increment) {
+            this.props.score.points += increment;
+        }
+        else {
+            this.props.score.points += this.state.scoreIncrement;
+        }
         this.ormService.write('recreation.result', [this.props.score.id], {score: this.props.score.points});
         this.render();
     }
     async _onDecrementScore(event) {
-        this.props.score.points -= this.state.scoreIncrement;
+        const increment = event.detail;
+        if (increment) {
+            this.props.score.points -= increment;
+        }
+        else {
+            this.props.score.points -= this.state.scoreIncrement;
+        }
         this.ormService.write('recreation.result', [this.props.score.id], {score: this.props.score.points});
         this.render();
     }

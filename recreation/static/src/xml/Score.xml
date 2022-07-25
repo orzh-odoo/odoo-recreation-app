@@ -7,7 +7,7 @@
                 <div class="scoreboard-element" t-on-click.stop="trigger('select-element', props.element)">
                     <div class="score-element">
                         <t t-foreach="props.element.scores" t-as="score" class="team-score">
-                            <TeamScore score="score" customIncrement="props.element.customIncrement"/>
+                            <TeamScore score="score" customIncrement="props.element.customIncrement" increments="props.element.increments"/>
                         </t>
                     </div>
                     <t t-if="props.element.edit">

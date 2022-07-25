@@ -8,13 +8,24 @@
             </div>
             <div class="score-content d-flex flex-row">
                 <div class="score-controls d-flex flex-column justify-content-center test-flex">
-                    <button type="button" class="score-button btn btn-success" t-on-click.stop="trigger('increment-score')">
-                        +
-                    </button>
-                    <input t-if="props.customIncrement" class="form-control score-increment form-control-lg" type="text" t-model.number="state.scoreIncrement"/>
-                    <button type="button" class="score-button btn btn-danger" t-on-click.stop="trigger('decrement-score')">
-                        -
-                    </button>
+                    <div class="d-flex m-1" t-foreach="props.increments" t-as="increment">
+                        <button type="button" class="score-button btn btn-danger" t-on-click.stop="trigger('decrement-score', increment)">
+                            -
+                        </button>
+                        <span class="score-increment form-control-lg" t-esc="increment"/>
+                        <button type="button" class="score-button btn btn-success" t-on-click.stop="trigger('increment-score', increment)">
+                            +
+                        </button>
+                    </div>
+                    <div class="d-flex m-1" t-if="props.customIncrement" >
+                        <button type="button" class="score-button btn btn-danger" t-on-click.stop="trigger('decrement-score', null)">
+                            -
+                        </button>
+                        <input class="form-control score-increment form-control-lg" type="text" t-model.number="state.scoreIncrement"/>
+                        <button type="button" class="score-button btn btn-success" t-on-click.stop="trigger('increment-score', null)">
+                            +
+                        </button>
+                    </div>
                 </div>
                 <div class="score-score test-flex"> 
                     <t t-esc="props.score.points"/>  
