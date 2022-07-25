@@ -40,6 +40,8 @@
                             <input type="checkbox" class="custom-control-input" id="upcomingSwitch" t-att-checked="elementObject.upcoming" t-on-click.stop="trigger('toggle-element', 'upcoming')"/>
                             <label class="custom-control-label" for="upcomingSwitch">Upcoming</label>
                           </div>
+                          <i class="fa fa-calculator fa-lg" role="img" aria-label="Add score button" title="Add score" t-on-click.stop="trigger('create-element', 'image')"></i>
+                          <i class="fa fa-trash fa-lg" role="img" aria-label="Remove button" title="Remove" t-on-click.stop="trigger('remove-element')"></i>
                     </div>
                 </div>
             </div>

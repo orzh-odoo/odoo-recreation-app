@@ -19,6 +19,8 @@ class Scoreboard extends Component {
         useListener('select-element', this._onSelectElement);
         useListener('deselect-element', this._onDeselectElement);
         useListener('save-element', this._onSaveElement);
+        useListener('create-element', this._onCreateElement);
+        useListener('remove-element', this._remove);
         useListener('rematch', this._onRematch);
         useListener('exit-scoreboard', this._onExitScoreboard);
         useListener('toggle-element', this._toggleElement);
@@ -253,12 +255,31 @@ class Scoreboard extends Component {
             'activity_id': this.state.match.activity_id[0]
         });
         const newElem = (await this.ormService.read('recreation.scoreboard.element', [newElemId], []))[0];
-        this.scoreboardElements[elementType] = newElem;
+        if (elementType === 'image'){
+            this.scoreboardElements['image'].push(newElem);
+        }
+        else{
+            this.scoreboardElements[elementType] = newElem;
+        }
         this.render();
     }
     async _remove(element) {
-        this.ormService.unlink('recreation.scoreboard.element', [this.scoreboardElements[element].id]);
-        this.scoreboardElements[element] = null;
+        if (!(element in this.scoreboardElements)){
+            if (this.state.selectedElement.id !== null) {
+                this.ormService.unlink('recreation.scoreboard.element', [this.state.selectedElement.id]);
+                if (this.state.selectedElement.type === 'image'){
+                    const i = this.scoreboardElements.image.findIndex((elem) => elem.id == this.state.selectedElement.id)
+                    if (i > -1) this.scoreboardElements.image.splice(i, 1);
+                }
+                else{
+                    this.scoreboardElements[this.state.selectedElement.type] = null;
+                }
+            }
+        }
+        else{
+            this.ormService.unlink('recreation.scoreboard.element', [this.scoreboardElements[element].id]);
+            this.scoreboardElements[element] = null;
+        }
         this.render();
     }
     async _save(element) {
@@ -268,7 +289,13 @@ class Scoreboard extends Component {
         if (element.height) data.height = element.height;
         if (element.width) data.width = element.width;
         this.ormService.write('recreation.scoreboard.element', [element.id], data);
-        this.scoreboardElements[element.type] = { ...this.scoreboardElements[element.type], ...data }
+        if (element.type === 'image'){
+            const i = this.scoreboardElements.image.findIndex((elem) => elem.id == element.id)
+            this.scoreboardElements.image[i] = {...this.scoreboardElements[i], ...data}
+        }
+        else{
+            this.scoreboardElements[element.type] = { ...this.scoreboardElements[element.type], ...data }
+        }
     }
     async _onSaveElement(event) {
         const element = event.detail;
@@ -293,6 +320,10 @@ class Scoreboard extends Component {
         this.ormService.call('recreation.match', 'start_game', [newMatch]).then(res => {
             this.actionService.doAction(res)
         })
+    }
+    async _onCreateElement(event) {
+        const element = event.detail;
+        await this._create(element);
     }
 }
 
