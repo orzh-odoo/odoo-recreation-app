@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api
+from odoo.exceptions import ValidationError
 
 
 class RecreationScoreIncrement(models.Model):
@@ -14,3 +15,9 @@ class RecreationScoreIncrement(models.Model):
     def _compute_name(self):
         for record in self:
             record.name = str(record.value)
+
+    @api.constrains('value')
+    def _check_value(self):
+        for record in self:
+            if record.value <= 0:
+                raise ValidationError('Increment value must be a positive integer')
