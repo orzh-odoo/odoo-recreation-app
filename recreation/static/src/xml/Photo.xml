@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <template id="template" xml:space="preserve">
     
-    <t t-name="ranking" owl="1">
+    <t t-name="photo" owl="1">
         <Draggable limitArea="'.scoreboard'">
             <Resizeable limitArea="'.scoreboard'">
                 <div class="scoreboard-element">
