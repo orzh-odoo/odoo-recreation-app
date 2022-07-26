@@ -271,9 +271,6 @@ class Scoreboard extends Component {
         this.render();
     }
     _createPhoto = async (photo_header, photo) => {
-        const activity = (await this.ormService.read('recreation.activity', [this.state.match.activity_id[0]], []))[0];
-        console.log('activity', activity);
-        console.log('display photo', photo)
         const newElemId = await this.ormService.create('recreation.scoreboard.element', {
             'element_type': 'photo',
             'activity_id': this.state.match.activity_id[0],
