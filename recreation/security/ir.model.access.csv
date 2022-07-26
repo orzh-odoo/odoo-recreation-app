@@ -6,3 +6,4 @@ result_admin,result admin,model_recreation_result,,1,1,1,1
 location_admin,location admin,model_recreation_location,,1,1,1,1
 scoreboard_element_admin,scoreboard element admin,model_recreation_scoreboard_element,,1,1,1,1
 team_wizard_admin,team wizard admin,model_recreation_team_wizard,,1,1,1,1
+score_increment_admin,score increment admin,model_recreation_score_increment,,1,1,1,1

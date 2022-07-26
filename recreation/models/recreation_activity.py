@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from odoo import models, fields
+from odoo import models, fields, api
+from odoo.exceptions import ValidationError
 
 
 class RecreationActivity(models.Model):
@@ -16,6 +17,7 @@ class RecreationActivity(models.Model):
     match_ids = fields.One2many(comodel_name='recreation.match', inverse_name='activity_id', string='Matches')
     location_ids = fields.Many2many(comodel_name='recreation.location', string='Locations')
     average_game_time = fields.Integer(string='Average Game Time in Minutes')
+    score_increment_ids = fields.One2many(comodel_name='recreation.score.increment', inverse_name='activity_id', string='Score Increments')
     win_condition = fields.Selection(
         selection=[
             ('lowest', 'Lowest Score Wins'),
@@ -42,3 +44,9 @@ class RecreationActivity(models.Model):
         action = self.env.ref('recreation.recreation_action_scoreboard').read()[0] 
         action['context'] = { 'edit': True, 'activity_id': self.id }
         return action
+
+    @api.constrains('score_increment_ids', 'custom_input')
+    def _check_score_control_exists(self):
+        for record in self:
+            if not record.custom_input and len(record.score_increment_ids) == 0:
+                raise ValidationError('Must include a score increment or allow custom score input')

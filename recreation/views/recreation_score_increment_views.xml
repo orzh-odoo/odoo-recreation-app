@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="recreation_score_increment_view_form" model="ir.ui.view">
+            <field name="name">recreation.score.increment.view.form</field>
+            <field name="model">recreation.score.increment</field>
+            <field name="arch" type="xml">
+                <form string="Score Increment">
+                    <sheet>
+                        <group>
+                            <field name="value" />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="recreation_score_increment_view_tree" model="ir.ui.view">
+            <field name="name">recreation.score.increment.view.tree</field>
+            <field name="model">recreation.score.increment</field>
+            <field name="arch" type="xml">
+                <tree string="Score Increment" editable="top">
+                    <field name="value" />
+                </tree>
+            </field>
+        </record>
+    </data>
+</odoo>

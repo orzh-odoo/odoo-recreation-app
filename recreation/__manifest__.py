@@ -24,6 +24,7 @@
         'views/recreation_activity_views.xml',
         'views/recreation_team_views.xml',
         'views/recreation_result_views.xml',
+        'views/recreation_score_increment_views.xml',
         'wizard/team_wizard_views.xml'
     ],
     'assets': {

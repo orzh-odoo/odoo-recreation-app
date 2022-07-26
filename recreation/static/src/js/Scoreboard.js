@@ -42,9 +42,9 @@ class Scoreboard extends Component {
         this.ormService = useService("orm");
         this.actionService = useService("action");
         onWillStart(async () => {
-            let match, results, teams, location, startTime, nextMatch, nextTeams, nextStartTime, customIncrement, winner;
+            let match, results, teams, location, startTime, nextMatch, nextTeams, nextStartTime, customIncrement, winner, increment;
             if (!this.state.isEditMode) {
-                ({ match, results, teams, location, startTime, nextMatch, nextTeams, nextStartTime, customIncrement, winner } = await this.load());
+                ({ match, results, teams, location, startTime, nextMatch, nextTeams, nextStartTime, customIncrement, winner, increment } = await this.load());
             }
             else {
                 match = {
@@ -81,6 +81,8 @@ class Scoreboard extends Component {
                 ]
                 location = 'Location of Activity';
                 startTime = '4:00 PM';
+                increment = [5,10]
+                
             }
             this.state.match = match;
             this.results = results;
@@ -92,12 +94,13 @@ class Scoreboard extends Component {
             this.nextStartTime = nextStartTime;
             this.customIncrement = customIncrement
             this.state.winner = winner;
+            this.increment = increment;
             await this.fetchScoreboardElements()
         });
     }
 
     async loadRender() {
-        let { match, results, teams, location, startTime, nextMatch, nextTeams, nextStartTime, customIncrement, winner } = await this.load();
+        let { match, results, teams, location, startTime, nextMatch, nextTeams, nextStartTime, customIncrement, winner, increment } = await this.load();
         this.state.match = match;
         this.results = results;
         this.teams = teams;
@@ -108,6 +111,7 @@ class Scoreboard extends Component {
         this.nextStartTime = nextStartTime;
         this.customIncrement = customIncrement
         this.winner = winner;
+        this.increment = increment;
         await this.fetchScoreboardElements()
     }
 
@@ -115,7 +119,10 @@ class Scoreboard extends Component {
         const match = (await this.ormService.read('recreation.match', [this.props.action.context.active_id], []))[0];
         const results = await this.ormService.read('recreation.result', match.result_ids, []);
         const teams = await this.ormService.read('recreation.team', results.map(r => r.team_id[0]), []);
-        const customIncrement = (await this.ormService.read('recreation.activity', [match.activity_id[0]], ['custom_input']))[0].custom_input
+        const activity = (await this.ormService.read('recreation.activity', [match.activity_id[0]], ['custom_input', 'score_increment_ids']))[0]
+        const customIncrement = activity.custom_input
+        const increment = (await this.ormService.read('recreation.score.increment', activity.score_increment_ids, ['value'])).map((elem) => elem.value)
+        console.log(increment);
         const location = match.location_id[1];
         const startTime = match.start_time;
         const winner = match.winner[1];
@@ -129,7 +136,7 @@ class Scoreboard extends Component {
         else {
             nextMatch, nextTeams, nextStartTime = false;
         }
-        return { match, results, teams, location, startTime, nextMatch, nextTeams, nextStartTime, customIncrement, winner };
+        return { match, results, teams, location, startTime, nextMatch, nextTeams, nextStartTime, customIncrement, winner, increment };
     }
 
     async fetchScoreboardElements() {
@@ -192,6 +199,7 @@ class Scoreboard extends Component {
 
                 else if (element.type == 'score') {
                     element.customIncrement = this.customIncrement;
+                    element.increments = this.increment
                     for (let result of [...this.results.slice(this.state.scoreStartIndex), ...this.results.slice(0, this.state.scoreStartIndex)]) {
                         element.scores.push({
                             id: result.id,
