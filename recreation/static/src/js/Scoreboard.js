@@ -7,6 +7,7 @@ import Ranking from './Ranking';
 import Upcoming from './Upcoming';
 import Popup from './Popup';
 import Photo from './Photo';
+import PhotoUpload from './PhotoUpload'
 
 const { Component } = owl;
 const { useListener } = require('web.custom_hooks');
@@ -32,7 +33,9 @@ class Scoreboard extends Component {
             isEditMode: !!this.props.action.context.edit,
             scoreStartIndex: 0,
         });
-        this.scoreboardElements = {};
+        this.scoreboardElements = {photo: []};
+        console.log('init', this.scoreboardElements);
+        console.log('photo init', this.scoreboardElements.photo);
     }
 
     async setup() {
@@ -131,8 +134,14 @@ class Scoreboard extends Component {
 
     async fetchScoreboardElements() {
         const scoreboardElements = await this.ormService.searchRead('recreation.scoreboard.element', [['activity_id', '=', this.state.match.activity_id[0]]], []);
+        console.log('SE', scoreboardElements)
         for (let element of scoreboardElements) {
-            this.scoreboardElements[element.element_type] = element
+            if (element.element_type !== 'photo'){
+                this.scoreboardElements[element.element_type] = element
+            }
+            else {
+                this.scoreboardElements['photo'].push(element)
+            }
         }
     }
 
@@ -150,21 +159,21 @@ class Scoreboard extends Component {
 
     get activeScoreboardElements() {
         let data = []
-        let elements = this.scoreboardElements
-        for (let record in elements) {
-            if (elements[record]) {
+        let elements = Object.values(this.scoreboardElements).flat()
+        for (let record of elements) {
+            if (record) {
                 let element = {};
 
-                element.id = elements[record].id;
-                element.type = elements[record].element_type;
+                element.id = record.id;
+                element.type = record.element_type;
                 element.teams = [];
                 element.scores = [];
                 element.upcoming = {};
 
-                element.width = elements[record].width;
-                element.height = elements[record].height;
-                element.position_v = elements[record].position_v;
-                element.position_h = elements[record].position_h;
+                element.width = record.width;
+                element.height = record.height;
+                element.position_v = record.position_v;
+                element.position_h = record.position_h;
 
                 if (element.type == 'ranking') {
                     let teams = [];
@@ -209,15 +218,12 @@ class Scoreboard extends Component {
 
                 else if (element.type == 'photo') {
                     element.photo = {
-                        'img_src': ''
+                        'img_src': `${record.image_header},${record.image}`
                     }
                 }
-
+                element.edit = element.id === this.state.selectedElement.id;
+                data.push(element)
             }
-            element.edit = element.id === this.state.selectedElement.id;
-            data.push(element)
-
-
         }
         return data;
     }
@@ -253,21 +259,30 @@ class Scoreboard extends Component {
             'activity_id': this.state.match.activity_id[0]
         });
         const newElem = (await this.ormService.read('recreation.scoreboard.element', [newElemId], []))[0];
-        if (elementType === 'image'){
-            this.scoreboardElements['image'].push(newElem);
-        }
-        else{
-            this.scoreboardElements[elementType] = newElem;
-        }
+        this.scoreboardElements[elementType] = newElem;
+        this.render();
+    }
+    _createPhoto = async (photo_header, photo) => {
+        const activity = (await this.ormService.read('recreation.activity', [this.state.match.activity_id[0]], []))[0];
+        console.log('activity', activity);
+        console.log('display photo', photo)
+        const newElemId = await this.ormService.create('recreation.scoreboard.element', {
+            'element_type': 'photo',
+            'activity_id': this.state.match.activity_id[0],
+            'image_header': photo_header,
+            'image': photo
+        });
+        const newElem = (await this.ormService.read('recreation.scoreboard.element', [newElemId], []))[0];
+        this.scoreboardElements.photo.push(newElem);
         this.render();
     }
     async _remove(element) {
         if (!(element in this.scoreboardElements)){
             if (this.state.selectedElement.id !== null) {
                 this.ormService.unlink('recreation.scoreboard.element', [this.state.selectedElement.id]);
-                if (this.state.selectedElement.type === 'image'){
-                    const i = this.scoreboardElements.image.findIndex((elem) => elem.id == this.state.selectedElement.id)
-                    if (i > -1) this.scoreboardElements.image.splice(i, 1);
+                if (this.state.selectedElement.type === 'photo'){
+                    const i = this.scoreboardElements.photo.findIndex((elem) => elem.id == this.state.selectedElement.id)
+                    if (i > -1) this.scoreboardElements.photo.splice(i, 1);
                 }
                 else{
                     this.scoreboardElements[this.state.selectedElement.type] = null;
@@ -287,9 +302,9 @@ class Scoreboard extends Component {
         if (element.height) data.height = element.height;
         if (element.width) data.width = element.width;
         this.ormService.write('recreation.scoreboard.element', [element.id], data);
-        if (element.type === 'image'){
-            const i = this.scoreboardElements.image.findIndex((elem) => elem.id == element.id)
-            this.scoreboardElements.image[i] = {...this.scoreboardElements[i], ...data}
+        if (element.type === 'photo'){
+            const i = this.scoreboardElements.photo.findIndex((elem) => elem.id == element.id)
+            this.scoreboardElements.photo[i] = {...this.scoreboardElements.photo[i], ...data}
         }
         else{
             this.scoreboardElements[element.type] = { ...this.scoreboardElements[element.type], ...data }
@@ -331,7 +346,8 @@ Scoreboard.components = {
     Score,
     Upcoming,
     Popup,
-    Photo
+    Photo,
+    PhotoUpload
 };
 
 core.action_registry.add('recreation_app', Scoreboard);

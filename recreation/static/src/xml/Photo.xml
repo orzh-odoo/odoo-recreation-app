@@ -6,7 +6,7 @@
             <Resizeable limitArea="'.scoreboard'">
                 <div class="scoreboard-element">
                     <div class="photo-element" t-on-click.stop="trigger('select-element', props.element)">
-                        <img t-att-src="props.element.img_src"/>
+                        <img t-att-src="props.element.photo.img_src" draggable="false"/>
                     </div>
                     <t t-if="props.element.edit">
                         <div class="resize-handle top resize-handle-n"></div>

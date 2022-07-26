@@ -11,7 +11,8 @@ class RecreationScoreboardElement(models.Model):
     position_v = fields.Float(string='Vertical Position')
     height = fields.Float(string='Height')
     width = fields.Float(string='Width')
-    image = fields.Image()
+    image_header = fields.Char(string="Image Header")
+    image = fields.Image(string="Image")
     element_type = fields.Selection(
         string='Element Type',
         selection=[

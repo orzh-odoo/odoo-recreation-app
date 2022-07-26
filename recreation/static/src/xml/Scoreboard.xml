@@ -6,6 +6,7 @@
             <div class="screen-content-flexbox">
                 <div t-on-click="trigger('deselect-element')" class="scoreboard" t-ref="scoreboard-ref">
                     <Popup winner="getWinner"/>
+                    <PhotoUpload onSavePhoto="_createPhoto"/>
                     <div t-if="isScoreboardEmpty" class="empty-scoreboard">
                         <span>This scoreboard has no elements yet, use the buttons in the editing toolbar to create new elements.</span>
                     </div>
@@ -14,7 +15,7 @@
                             <Score t-if="scoreboardElement.type=='score'" element="scoreboardElement" />
                             <Ranking t-if="scoreboardElement.type=='ranking'" element="scoreboardElement" />
                             <Upcoming t-if="scoreboardElement.type=='upcoming'" element="scoreboardElement" />
-                            <BackgroungImage t-if="scoreboardElement.type=='photo'" element="scoreboardElement" />
+                            <Photo t-if="scoreboardElement.type=='photo'" element="scoreboardElement" />
                         </t>
                     </div>
                     <div class="scoreboard-bar">
@@ -41,7 +42,9 @@
                             <input type="checkbox" class="custom-control-input" id="upcomingSwitch" t-att-checked="elementObject.upcoming" t-on-click.stop="trigger('toggle-element', 'upcoming')"/>
                             <label class="custom-control-label" for="upcomingSwitch">Upcoming</label>
                           </div>
-                          <i class="fa fa-calculator fa-lg" role="img" aria-label="Add score button" title="Add score" t-on-click.stop="trigger('create-element', 'image')"></i>
+                          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#photoUpload">
+                            Photo
+                          </button>
                           <i class="fa fa-trash fa-lg" role="img" aria-label="Remove button" title="Remove" t-on-click.stop="trigger('remove-element')"></i>
                     </div>
                 </div>

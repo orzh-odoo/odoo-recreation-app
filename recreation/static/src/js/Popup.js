@@ -5,6 +5,6 @@ const { Component } = owl;
 class Popup extends Component {
 }
 
-Popup.template = 'popup'
+Popup.template = 'popup';
 
 export default Popup;
